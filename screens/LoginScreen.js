@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
   StyleSheet,
   Text,
@@ -6,34 +6,68 @@ import {
   StatusBar,
   TextInput,
   TouchableOpacity,
+  Alert
 } from 'react-native';
+import firebase, { auth } from "firebase";
+import config from '../config/firebase';
+export default class LoginScreen extends Component {
+  state = {
+    email :null,
+    password : null,
+    }
+    Signin = ()=>{
+      if( this.state.email == null || this.state.password == null ){
+        Alert.alert("All fields are required")
+        return;
+        }
+    try{
+        firebase
+        .auth()
+        .signInWithEmailAndPassword
+        (this.state.email,this.state.password).
+        catch((error) => Alert.alert(error.toString(error)))
+        .then((user) => {
+             if(user){
+                 Alert.alert("Login ok");
+             this.props.navigation.navigate('Home')
+             }
 
- export default class LoginScreen extends Component {
+        });
+    }catch (error) {
+        console.log(error.toString(error));
+      }
+
+    }
+
   render() {
     return (
       <View style={styles.container}>
-       <StatusBar barStyle = "light-content"  backgroundColor="#FFFF" />
+        <StatusBar translucent backgroundColor="transparent" />
         <Text style={styles.textProp}>Login</Text>
         <View>
-          <TextInput 
+        <TextInput
             placeholderTextColor={'#BDC7D4'}
             placeholder={'Email'}
             style={styles.emailField}
+            onChangeText={(email)=>{this.setState({email})}}
           />
           <View>
-            <TextInput secureTextEntry={true} style={styles.default}
+          <TextInput
+              secureTextEntry={true}
+              style={styles.default}
               placeholderTextColor={'#BDC7D4'}
               placeholder={'Password'}
               style={styles.pwdField}
+              onChangeText={(password)=>{this.setState({password})}}
             />
             <View>
-              <TouchableOpacity style={styles.signButton} activeOpacity={0.5}>
+              <TouchableOpacity style={styles.signButton}  onPress={this.Signin} activeOpacity={0.5}>
                 <Text style={styles.btnTxt}> Sign in </Text>
               </TouchableOpacity>
               <View>
                 <Text style={styles.bodyTxt}>Create account?</Text>
                 <TouchableOpacity
-                  onPress={()=>this.props.navigation.navigate('Signup')}>
+                  onPress={() => this.props.navigation.navigate('Signup')}>
                   <Text style={styles.signUpTxt}>Sign up </Text>
                 </TouchableOpacity>
               </View>

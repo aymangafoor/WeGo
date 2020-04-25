@@ -23,6 +23,17 @@ import {
   DebugInstructions,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import {createAppContainer} from 'react-navigation';
+import {createDrawerNavigator} from 'react-navigation-drawer';
+import {Dimensions} from 'react-native';
+import {Feather} from '@expo/vector-icons';
+import {RewardScreen,LoginScreen} from './screens';
+import SideBar from './screens/components/SideBar'
+const DrawerNavigator = createDrawerNavigator({
+  RewardScreen,
+  LoginScreen
+})
+export default createAppContainer(DrawerNavigator);
 
 const App: () => React$Node = () => {
   return (
