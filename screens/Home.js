@@ -9,39 +9,33 @@ import {
     StyleSheet,
     Button,
     TouchableOpacity,
-    SafeAreaView,
     TextInput,
     Image,
-    Dimensions
 } from "react-native";
-//import { Content,List, Header, Body, Title,ListItem, Container,  Left, Right, Icon, Text, Badge} from "native-base";
-//import {FontAwesomeS} from "@expo/vector-icons";
 import firebase, { auth } from "firebase";
 import config from '../config/firebase';
-import {createDrawerNavigator} from "react-navigation-drawer";
-import Reward from "./RewardScreen";
 import { Drawer } from "react-native-router-flux";
 import { readBuilderProgram } from "typescript";
 import Login from "./LoginScreen";
-import SideBar from "./components/SideBar";
 
 class Home extends Component {
-    signout=() =>{
-        firebase.auth().signOut() 
-        this.props.navigation.navigate('Login') 
-        }
+    
     render() {
         return (
-            <View style={styles.container}>
-              <SafeAreaView styles={{flex: 1}}>
-                <TouchableOpacity style={{alignItems: "flex-start", margin: 1,}} onPress={this.props.navigation.openDrawer}>
+            
+          <View style={styles.container}>
+                 <View style={styles.SquareShapeView} >
+              
+                <TouchableOpacity style={{alignSelf: "flex-start", marginleft: 15,}} onPress={this.props.navigation.openDrawer}>
                 <Image 
                 source={require('./images/drawer.png')}
-                style={{ width: 20, height: 25, margin: 1}} />
+                style={{ width: 30, alignSelf: "flex-start", height: 25}} />
              </TouchableOpacity>
-             <View styles={styles.Text}>{this.props.name}</View>
-              </SafeAreaView>
-              
+             <Image 
+                source={require('./images/user.png')}
+                style={{ width: 30, height: 30, alignSelf: "flex-end", marginVertical: 0}} />
+             </View>
+             
                 <Text style={styles.Text}>Nearby Services</Text>
                 <View style={{flexDirection: "row"}}>
                 <TouchableOpacity style={styles.signButton} activeOpacity={0.5}>
@@ -75,31 +69,16 @@ class Home extends Component {
         title="Sign out"
         onPress={this.signout} 
         />
-       
-            </View>
-        );
-              const DrawerNavigator = createDrawerNavigator({
-          Reward: {
-              screen: Reward,
-              navigationOptions: ({navigation}) => ({
-                title: "Reward",
-              })     
-          
-          },
-          Login: {
-            screen: Login,
-            navigationOptions: ({navigation}) => ({
-              title: "Reward",
-            })
-          
-          }
-              },
-            {contentComponent: SideBar,
-            drawerWidth: Dimensions.get('window').width - 120,
-            } 
+        
+        <Text style={styles.textProp}>WeGo</Text>
+       </View>
         );
         
     }
+    signout=() =>{
+      firebase.auth().signOut() 
+      this.props.navigation.navigate('Login') 
+      }
 }
 export default Home;
 
@@ -107,12 +86,15 @@ export default Home;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginLeft: 15,
-        marginTop: 5,
-        marginBottom: 5,
-        marginRight: 5,
        // alignItems: 'center',
         //justifyContent: 'center'
+    },
+    SquareShapeView: {
+       marginHorizontal: 0,
+      height: 100,
+      backgroundColor: '#0000ff',
+      borderBottomEndRadius: 20,
+      borderBottomStartRadius: 20,
     },
    textProp: {
         fontFamily: 'Montserrat-Bold',
