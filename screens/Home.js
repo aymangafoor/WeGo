@@ -81,18 +81,23 @@ class Home extends Component {
               const DrawerNavigator = createDrawerNavigator({
           Reward: {
               screen: Reward,
-              navigationOptions: {
-                title: "Reward"
-              }
+              navigationOptions: ({navigation}) => ({
+                title: "Reward",
+              })     
+          
           },
           Login: {
             screen: Login,
+            navigationOptions: ({navigation}) => ({
+              title: "Reward",
+            })
           
           }
               },
-            contentComponent=props => <SideBar {...props} />
-        
-        )
+            {contentComponent: SideBar,
+            drawerWidth: Dimensions.get('window').width - 120,
+            } 
+        );
         
     }
 }

@@ -13,11 +13,8 @@ import {
 import {DrawerNavigatorItems} from "react-navigation-drawer";
 import { ScrollView } from "react-native-gesture-handler";
 export default  class SideBar extends Component{
-    constructor(props) {
-        super(props)
-        }
         navigateToScreen = (route) => () => {
-        const navigate = NavigationActions.navigate({
+        const navigateAction = NavigationActions.navigate({
         routeName: route
         });
         this.props.navigation.dispatch(navigate);
@@ -36,7 +33,9 @@ render() {
 );
 }}
 
-
+SideMenu.propTypes = {
+    navigation: PropTypes.object
+  };
 const styles = StyleSheet.create({
     container: {
         flex: 1,
