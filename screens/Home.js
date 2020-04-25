@@ -90,7 +90,7 @@ class Home extends Component {
           
           }
               },
-            contentComponent: props => <SideBar {...props} />
+            contentComponent=props => <SideBar {...props} />
         
         )
         
