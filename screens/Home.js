@@ -26,14 +26,14 @@ class Home extends Component {
           <View style={styles.container}>
                  <View style={styles.SquareShapeView} >
               
-                <TouchableOpacity style={{alignSelf: "flex-start", marginleft: 15,}} onPress={this.props.navigation.openDrawer}>
+                <TouchableOpacity style={{alignSelf: "flex-start", marginleft: 15,marginTop:10}} onPress={this.props.navigation.openDrawer}>
                 <Image 
                 source={require('./images/drawer.png')}
-                style={{ width: 30, alignSelf: "flex-start", height: 25}} />
+                style={{ width: 36.5, height: 19.13}} />
              </TouchableOpacity>
              <Image 
                 source={require('./images/user.png')}
-                style={{ width: 30, height: 30, alignSelf: "flex-end", marginVertical: 0}} />
+                style={{ width: 42, height: 42, alignSelf: "flex-end", marginleft: 15,marginTop:-20}} />
              </View>
              
                 <Text style={styles.Text}>Nearby Services</Text>
@@ -61,7 +61,7 @@ class Home extends Component {
                 </View>
                 <Text style={styles.texttap}>Tap on any services or search destinations</Text>
                 <TextInput
-            placeholderTextColor={'#BDC7D4'}
+            placeholderTextColor={'#797C80'}
             placeholder={'Search destinations'}
             style={styles.emailField}
           />
@@ -70,7 +70,7 @@ class Home extends Component {
         onPress={this.signout} 
         />
         
-        <Text style={styles.textProp}>WeGo</Text>
+        <Text style={styles.footerTxt}>WeGo</Text>
        </View>
         );
         
@@ -109,10 +109,10 @@ const styles = StyleSheet.create({
       emailField: {
         fontFamily: 'Montserrat-Light',
         fontSize: 14,
-        color: '#314256',
+        color: '#86898E',
         width: 330,
         height: 50,
-        backgroundColor: '#314256',
+        backgroundColor: '#E1E6EC',
         borderRadius: 30,
         paddingLeft: 22,
         marginTop: 10,
@@ -154,8 +154,8 @@ const styles = StyleSheet.create({
         height: 52,
       },
       signButton: {
-        alignSelf: 'center',
-        marginTop: 4,
+       // alignSelf: 'center',
+        marginTop: 10,
         marginLeft: 0,
         marginRight: 0,
         marginBottom: 0,
@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
       Text: {
         fontFamily: 'Montserrat-Bold',
         fontSize: 20,
-        marginLeft: 0,
+        marginLeft: 10,
         marginRight: 0,
         color: '#314256',
         marginHorizontal: 0,

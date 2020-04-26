@@ -46,7 +46,7 @@ export default class LoginScreen extends Component {
         <Text style={styles.textProp}>Login</Text>
         <View>
         <TextInput
-            placeholderTextColor={'#BDC7D4'}
+            placeholderTextColor={'#86898E'}
             placeholder={'Email'}
             style={styles.emailField}
             onChangeText={(email)=>{this.setState({email})}}
@@ -55,7 +55,7 @@ export default class LoginScreen extends Component {
           <TextInput
               secureTextEntry={true}
               style={styles.default}
-              placeholderTextColor={'#BDC7D4'}
+              placeholderTextColor={'#86898E'}
               placeholder={'Password'}
               style={styles.pwdField}
               onChangeText={(password)=>{this.setState({password})}}
@@ -84,14 +84,14 @@ export default class LoginScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#121921',
+    backgroundColor: '#ffffff',
     alignItems: 'center',
     justifyContent: 'center',
   },
   textProp: {
     fontFamily: 'Montserrat-Bold',
     fontSize: 38,
-    color: '#ffffff',
+    color: '#314256',
     marginTop: 32,
     marginBottom: 0,
     marginRight: 0,
@@ -101,10 +101,10 @@ const styles = StyleSheet.create({
   emailField: {
     fontFamily: 'Montserrat-Light',
     fontSize: 14,
-    color: '#BDC7D4',
+    color: '#86898E',
     width: 286,
     height: 60,
-    backgroundColor: '#314256',
+    backgroundColor: '#E1E6EC',
     borderRadius: 30,
     paddingLeft: 22,
     marginTop: 98,
@@ -115,10 +115,10 @@ const styles = StyleSheet.create({
   pwdField: {
     fontFamily: 'Montserrat-Light',
     fontSize: 14,
-    color: '#BDC7D4',
+    color: '#86898E',
     width: 286,
     height: 60,
-    backgroundColor: '#314256',
+    backgroundColor: '#E1E6EC',
     borderRadius: 30,
     paddingLeft: 22,
     marginTop: 36,
@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
   bodyTxt: {
     fontFamily: 'Montserrat-Regular',
     fontSize: 14,
-    color: '#ffffff',
+    color: '#314256',
     marginTop: 58,
     marginBottom: 0,
     marginRight: 0,

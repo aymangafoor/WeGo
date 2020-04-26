@@ -17,19 +17,19 @@ class RewardScreen extends Component{
               <View style={styles.container}>
                   <TouchableOpacity style={{alignSelf: "flex-end", marginleft: 15,}} onPress={this.props.navigation.navigate('Home')}>
                   <Image 
-                  source={require('./images/drawer.png')}
-                  style={{ width: 30, alignSelf: "flex-start", height: 25}} />
+                  source={require('./images/signout.png')}
+                  style={{ width: 21.96, height: 21}} />
                   </TouchableOpacity>
                   <Image 
                 source={require('./images/user.png')}
-                style={{ width: 50, height: 50, alignSelf: "center",}} />
+                style={{ width: 160, height: 160, alignSelf: "center",}} />
               
         <Text style={styles.Text}>{firebase.auth().currentUser.email}</Text>
         <View style={{flexDirection: "row"}}>
         <Image 
                 source={require('./images/coin.png')}
                 title="50wc"
-                style={{ width: 30, height: 30, alignSelf: "center", marginVertical: 0}} />
+                style={{ width: 24, height: 24, alignSelf: "center", marginVertical: 0}} />
                 <Text style={{alignSelf: "center"}}>50wc</Text>
                 </View>
                 <Text style={styles.footerTxt}>WeGo</Text>
@@ -62,11 +62,12 @@ const styles = StyleSheet.create({
       footerTxt: {
         fontFamily: 'Montserrat-Bold',
         fontSize: 20,
-        marginBottom: 0,
-        marginTop: 500,
         alignSelf: 'center',
         color: '#314256',
-      
+        marginTop: 90,
+        marginBottom: 16,
+        marginRight: 0,
+        marginLeft: 0,
       },
     }
     );
