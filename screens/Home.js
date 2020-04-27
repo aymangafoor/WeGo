@@ -12,7 +12,9 @@ import {
     TextInput,
     Image,
     SafeAreaView,
+    Alert,
 } from "react-native";
+// import cio from 'cheerio-without-node-native';
 import firebase, { auth } from "firebase";
 import config from '../config/firebase';
 import { Drawer } from "react-native-router-flux";
@@ -24,19 +26,25 @@ class Home extends Component {
   state ={
     lat : null,
     lng : null,
-    place:null
+    place:null,
+    dist:null,
+    htmlcode:null,
+    places:[]
   }
   getData(){
+    // const $ = require('react-native-cheerio');
     Geocoder.init("AIzaSyChiwupcs4om20XFLC7iylVTO5Ef6OTH90");
     Geocoder.from(this.state.lat, this.state.lng).then(
       json => {
+          
         var addressComponent = json.results[0].address_components[1];
-        console.log(addressComponent);
+         console.log(addressComponent);
       //  alert(addressComponent.long_name);
        this.setState({
-         place:addressComponent.long_name
+         place:addressComponent.long_name,
+         dist:json.results[0].address_components[3].long_name
        })
-        
+       this.loadGraphicCards()
       }).catch(error => console.warn(error)
       );
         error=>{
@@ -44,8 +52,72 @@ class Home extends Component {
         }
   
     }
+  loadGraphicCards=()  => {
+    
+    var quizUrl = `https://www.holidify.com/places/${this.state.dist}/sightseeing-and-things-to-do.html`;
+    console.log(quizUrl)
+    var myHeaders = new Headers();
+    myHeaders.append('Content-Type', 'text/html');
+    fetch(quizUrl,{
+    mode: 'no-cors',
+    method: 'get',
+    headers: myHeaders
+}).then((response)=> {
+  response.text()
+  .then(html=>{
+    this.setState({
+      htmlcode:html
+    })
+    this.extract()
+    // console.log(html)
+  })
+
+    })
+   
+  }
+
+    extract =()=>{
+      // Alert.alert("ok")
+      //  console.log(this.state.htmlcode)
+
+      const cheerio = require('react-native-cheerio')
+      const $ = cheerio.load(this.state.htmlcode)
+      // console.log($('#attractionList').html())
+       $('#attractionList').html()
+      //  console.log($('div',$('#attractionList').html()).html())
+      //console.log($('div',$('#attractionList').html()).html())
+       //console.log($('.content-card',$('#attractionList'))[0])
+      data = $('div',$('.content-card',$('#attractionList'))).html()
+      // console.log($('div',$('.content-card',$('#attractionList'))))
+      
+      //console.log($(dataurl).html())
+      // console.log($('h3',dataurl).text()) //place name
+      // console.log($('img',dataurl).data().original) // image url
+      // console.log($('.card-text',dataurl).text()) // description
+      data = []
+
+      let limit = $('.content-card',$('#attractionList')).length
+      // console.log(limit)
+      for(let i=0;i<limit;i++){
+     // console.log(i)
+      let dataurl = $('.content-card',$('#attractionList'))[i]
+       temp = {}
+       // console.log($('h3',dataurl).text())
+       temp["place_name"] = $('h3',dataurl).text()
+       temp["image_url"] = $('img',dataurl).data().original
+       temp["desc"] = $('.card-text',dataurl).text()
+        data.push(temp)
+    }
+
+    
+      
+    this.setState({
+      places:data
+    })
+    }
   constructor(){
     super()
+   
     Geolocation.getCurrentPosition(
       info =>{
         this.setState({
@@ -58,7 +130,7 @@ class Home extends Component {
      render() {
         return (
             
-          <View style={styles.container}>
+          <SafeAreaView style={styles.container}>
             {/* <TouchableOpacity onPress={()=>{this.getData()}}>
               <Text>Address</Text>
             </TouchableOpacity> */}
@@ -74,13 +146,13 @@ class Home extends Component {
                 source={require('./images/user.png')}
                 style={{ width: 42, height: 42, alignSelf: "flex-end",marginTop:-20}} />
                 <View>
-        <Text style={{color:'white'}}>{this.state.place}</Text>
+                <Text style={{color:'white'}}>{this.state.place}</Text>
                 </View>
              </View>
              
                 <Text style={styles.Text}>Nearby Services</Text>
                 <View style={{flexDirection: "row"}}>
-                <TouchableOpacity style={styles.signButton} activeOpacity={0.5}>
+                <TouchableOpacity style={styles.signButton} onPress={()=>this.props.navigation.navigate("Near_Place",{data:this.state.places})} activeOpacity={0.5}>
                  <Text style={styles.btnTxt}> Places </Text>
                  </TouchableOpacity>
                  <TouchableOpacity style={styles.signButton} activeOpacity={0.5}>
@@ -101,19 +173,17 @@ class Home extends Component {
                  <Text style={styles.btnTxt}>Rental</Text>
                  </TouchableOpacity>
                 </View>
+                <View style={{alignItems:"center"}}>
                 <Text style={styles.texttap}>Tap on any services or search destinations</Text>
                 <TextInput
             placeholderTextColor={'#797C80'}
             placeholder={'Search destinations'}
             style={styles.emailField}
           />
-                <Button style={styles.btnTxt}
-        title="Sign out"
-        onPress={this.signout} 
-        />
+          </View>
         
         <Text style={styles.footerTxt}>WeGo</Text>
-       </View>
+       </SafeAreaView>
         );
         
     }

@@ -31,8 +31,10 @@ export default class SignUpScreen extends React.Component {
         catch((error) => Alert.alert(error.toString(error)))
         .then((user) => {
             console.log(user);
+            if(user){
             Alert.alert("Account Created");
             this.props.navigation.navigate('Home')
+            }
 
         });
     }catch (error) {
