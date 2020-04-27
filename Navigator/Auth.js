@@ -6,6 +6,7 @@ import Signup from '../screens/SignUpScreen';
 import Home from '../screens/Home';
 
 
+
 const AppNavigator = createStackNavigator({
     Login,
     Signup,

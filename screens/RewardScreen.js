@@ -15,9 +15,9 @@ class RewardScreen extends Component{
     render(){
         return(
               <View style={styles.container}>
-                  <TouchableOpacity style={{alignSelf: "flex-end", marginleft: 15,}} onPress={this.props.navigation.navigate('Home')}>
+                  <TouchableOpacity style={{alignSelf: "flex-start", marginleft: 15,}} onPress={()=>this.props.navigation.navigate('Home')}>
                   <Image 
-                  source={require('./images/signout.png')}
+                  source={require('./images/back.png')}
                   style={{ width: 21.96, height: 21}} />
                   </TouchableOpacity>
                   <Image 
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
         marginBottom: 5,
         marginRight: 5,
        alignItems: 'center',
-        justifyContent: 'center'
+      //  justifyContent: 'center'
     },
     Text: {
         fontFamily: 'Montserrat-Bold',

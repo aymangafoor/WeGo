@@ -17,23 +17,47 @@ import config from '../config/firebase';
 import { Drawer } from "react-native-router-flux";
 import { readBuilderProgram } from "typescript";
 import Login from "./LoginScreen";
-
+import Geolocation from '@react-native-community/geolocation';
+import Geocoder from 'react-native-geocoding';
 class Home extends Component {
-    
-    render() {
+  getData(){
+    Geocoder.init("AIzaSyChiwupcs4om20XFLC7iylVTO5Ef6OTH90");
+    Geocoder.from(11.198824, 76.2081365).then(
+      json => {
+        var addressComponent = json.results[0].address_components[1];
+        console.log(addressComponent);
+       alert(addressComponent.long_name);
+        
+      }).catch(error => console.warn(error)
+      );
+        error=>{
+          alert(error);
+        }
+  
+    }
+  componentDidMount(){
+    Geolocation.getCurrentPosition(
+      info => console.log(info));
+    }
+     render() {
         return (
             
           <View style={styles.container}>
+            <TouchableOpacity onPress={()=>{this.getData()}}>
+              <Text>Address</Text>
+            </TouchableOpacity>
                  <View style={styles.SquareShapeView} >
               
                 <TouchableOpacity style={{alignSelf: "flex-start", marginleft: 15,marginTop:10}} onPress={this.props.navigation.openDrawer}>
                 <Image 
                 source={require('./images/drawer.png')}
                 style={{ width: 36.5, height: 19.13}} />
-             </TouchableOpacity>
-             <Image 
+             </TouchableOpacity >
+             
+               <Image 
                 source={require('./images/user.png')}
-                style={{ width: 42, height: 42, alignSelf: "flex-end", marginleft: 15,marginTop:-20}} />
+                style={{ width: 42, height: 42, alignSelf: "flex-end",marginTop:-20}} />
+                
              </View>
              
                 <Text style={styles.Text}>Nearby Services</Text>

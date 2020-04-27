@@ -13,6 +13,11 @@ class About extends Component {
      render() {
         return (
             <View style={styles.container}>
+                <TouchableOpacity style={{alignSelf: "flex-start", marginleft: 15,}} onPress={()=>this.props.navigation.navigate('Home')}>
+                  <Image 
+                  source={require('./images/back.png')}
+                  style={{ width: 21.96, height: 21}} />
+                  </TouchableOpacity>
                 <Text style={styles.Text}>ABOUT US</Text>
                <Text style={styles.Textpara}>We Are A Team of 4 members
                    Aneesh Edavalath, Ayman Gafoor, Cijas PK and Hijas Ahamed Try to help users to plan their Trip</Text> 
@@ -27,9 +32,9 @@ class About extends Component {
                 marginLeft: 15,
                 marginTop: 5,
                 marginBottom: 5,
-                marginRight: 5,
+                marginRight: 15,
                alignItems: 'center',
-                justifyContent: 'center'
+                //justifyContent: 'center'
             },
             Text: {
                 fontFamily: 'Montserrat-Bold',
