@@ -11,6 +11,7 @@ import {
     TouchableOpacity,
     TextInput,
     Image,
+    SafeAreaView,
 } from "react-native";
 import firebase, { auth } from "firebase";
 import config from '../config/firebase';
@@ -20,13 +21,21 @@ import Login from "./LoginScreen";
 import Geolocation from '@react-native-community/geolocation';
 import Geocoder from 'react-native-geocoding';
 class Home extends Component {
+  state ={
+    lat : null,
+    lng : null,
+    place:null
+  }
   getData(){
     Geocoder.init("AIzaSyChiwupcs4om20XFLC7iylVTO5Ef6OTH90");
-    Geocoder.from(11.198824, 76.2081365).then(
+    Geocoder.from(this.state.lat, this.state.lng).then(
       json => {
         var addressComponent = json.results[0].address_components[1];
         console.log(addressComponent);
-       alert(addressComponent.long_name);
+      //  alert(addressComponent.long_name);
+       this.setState({
+         place:addressComponent.long_name
+       })
         
       }).catch(error => console.warn(error)
       );
@@ -35,17 +44,24 @@ class Home extends Component {
         }
   
     }
-  componentDidMount(){
+  constructor(){
+    super()
     Geolocation.getCurrentPosition(
-      info => console.log(info));
+      info =>{
+        this.setState({
+          lat:info.coords.latitude,
+          lng:info.coords.longitude,
+        })
+        this.getData()
+      });
     }
      render() {
         return (
             
           <View style={styles.container}>
-            <TouchableOpacity onPress={()=>{this.getData()}}>
+            {/* <TouchableOpacity onPress={()=>{this.getData()}}>
               <Text>Address</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
                  <View style={styles.SquareShapeView} >
               
                 <TouchableOpacity style={{alignSelf: "flex-start", marginleft: 15,marginTop:10}} onPress={this.props.navigation.openDrawer}>
@@ -57,7 +73,9 @@ class Home extends Component {
                <Image 
                 source={require('./images/user.png')}
                 style={{ width: 42, height: 42, alignSelf: "flex-end",marginTop:-20}} />
-                
+                <View>
+        <Text style={{color:'white'}}>{this.state.place}</Text>
+                </View>
              </View>
              
                 <Text style={styles.Text}>Nearby Services</Text>
@@ -116,6 +134,7 @@ const styles = StyleSheet.create({
     SquareShapeView: {
        marginHorizontal: 0,
       height: 100,
+      paddingHorizontal:10,
       backgroundColor: '#0000ff',
       borderBottomEndRadius: 20,
       borderBottomStartRadius: 20,
