@@ -5,6 +5,7 @@ import Home from '../screens/Home';
 import Profile from '../screens/RewardScreen';
 import About from '../screens/About';
 import Near_Place from '../screens/NearPlaces';
+import SignlePlace from '../screens/SignlePlace';
 import Signout from '../screens/Signout';
 import {Text} from "react-native";
 
@@ -13,7 +14,7 @@ const ScreenContainer =  createDrawerNavigator ({
    Profile,
    About,
    Near_Place,
-   Single_Page,
+   SignlePlace,
    Signout
    
 
