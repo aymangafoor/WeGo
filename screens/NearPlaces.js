@@ -42,7 +42,7 @@ class NearPlace extends Component {
     return this.props.navigation.getParam('data',[]).map((data)=>{
         return(
             <View style={{height:160,width:160,marginTop:20,marginLeft:20,borderWidth:0.5,borderColor:"#dddddd"}}>
-              <TouchableHighlight underlayColor='rgba(73,182,77,1,0.9)' style={{flex:2}}  onPress={()=>console.log(data.view_more)}>
+              <TouchableHighlight underlayColor='rgba(73,182,77,1,0.9)' style={{flex:2}}  onPress={()=>this.props.navigation.navigate("SignlePlace",{link:data.view_more})}>
                 <View style={{flex:2}}>
                 <View style={{flex:2}}>
                 <Image style={{flex:1,
