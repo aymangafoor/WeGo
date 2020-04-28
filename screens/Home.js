@@ -143,7 +143,7 @@ class Home extends Component {
       data = $('div',$('.content-card',$('#attractionList'))).html()
       // console.log($('div',$('.content-card',$('#attractionList'))))
       
-      //console.log($(dataurl).html())
+      // console.log($(data).html())
       // console.log($('h3',dataurl).text()) //place name
       // console.log($('img',dataurl).data().original) // image url
       // console.log($('.card-text',dataurl).text()) // description
@@ -155,15 +155,18 @@ class Home extends Component {
      // console.log(i)
       let dataurl = $('.content-card',$('#attractionList'))[i]
        temp = {}
-       // console.log($('h3',dataurl).text())
        temp["place_name"] = $('h3',dataurl).text()
        temp["image_url"] = $('img',dataurl).data().original
        temp["desc"] = $('.card-text',dataurl).text()
+       temp["view_more"]=$('a',$(dataurl).html())[0].attribs.href
+
         data.push(temp)
 
-        console.log("near:",this.state.dist)
-    }
+        //console.log("near:",this.state.dist)
+        
 
+    }
+//console.log(data)
     
       
     this.setState({

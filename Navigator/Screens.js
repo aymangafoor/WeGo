@@ -13,6 +13,7 @@ const ScreenContainer =  createDrawerNavigator ({
    Profile,
    About,
    Near_Place,
+   Single_Page,
    Signout
    
 
