@@ -28,23 +28,27 @@ class Home extends Component {
     lng : null,
     place:null,
     dist:null,
+    count:0,
     htmlcode:null,
-    places:[]
+    places:[],
+    responseCode:null
   }
   getData(){
     // const $ = require('react-native-cheerio');
-    Geocoder.init("AIzaSyChiwupcs4om20XFLC7iylVTO5Ef6OTH90");
+    Geocoder.init("AIzaSyChiwupcs4om20XFLC7iylVTO5Ef6OTH90",{language : "en"});
     Geocoder.from(this.state.lat, this.state.lng).then(
       json => {
           
         var addressComponent = json.results[0].address_components[1];
-         console.log(addressComponent);
-      //  alert(addressComponent.long_name);
+        
+         //console.log(addressComponent);
+        console.log("check",json.results[0].address_components)
        this.setState({
          place:addressComponent.long_name,
-         dist:json.results[0].address_components[3].long_name
+         dist:json.results[0]
        })
        this.loadGraphicCards()
+        
       }).catch(error => console.warn(error)
       );
         error=>{
@@ -52,29 +56,78 @@ class Home extends Component {
         }
   
     }
-  loadGraphicCards=()  => {
+    place_check = ()=>{
+     if(this.state.responseCode == 404){
+
+       if(this.state.count==0){
+        this.loadGraphicCards(this.state.dist.address_components[3].long_name)
+        this.setState({count:1})
+        return
+       }
+        else if(this.state.count==1){
+          this.loadGraphicCards(this.state.dist.address_components[0].long_name)
+          this.setState({count:2})
+          return
+        }
+        else if(this.state.count==2){
+          this.loadGraphicCards(this.state.dist.address_components[1].long_name)
+          this.setState({count:3})
+          return
+        }
+        else if(this.state.count==3){
+          this.loadGraphicCards(this.state.dist.address_components[4].long_name)
+          this.setState({count:4})
+          return
+        }
+        else if(this.state.dist.address_components[3].short_name){
+          this.setState({count:5})
+          return
+        }
+     }
+    }
     
-    var quizUrl = `https://www.holidify.com/places/${this.state.dist}/sightseeing-and-things-to-do.html`;
+  loadGraphicCards=(dis = this.state.dist.address_components[2].long_name)  => {
+    var quizUrl = `https://www.holidify.com/places/${dis}/sightseeing-and-things-to-do.html`;
+
     console.log(quizUrl)
     var myHeaders = new Headers();
     myHeaders.append('Content-Type', 'text/html');
-    fetch(quizUrl,{
+    var data = fetch(quizUrl,{
     mode: 'no-cors',
     method: 'get',
     headers: myHeaders
 }).then((response)=> {
-  response.text()
-  .then(html=>{
+   if(response.status==404){
+    this.setState({responseCode:404})
+    this.place_check()
+    return
+    }else{
+      this.setState({responseCode:response.status})
+      console.log("new res",response.status)
+      this.setState({dist:dis})
+    }
+    response.text()
+    .then(html=>{
     this.setState({
       htmlcode:html
     })
-    this.extract()
-    // console.log(html)
+   // console.log(code)
+     
+   this.extract()
+    
+  
+    //  console.log(html)
   })
 
     })
+    // console.log("code",this.state.responseCode)
+    // if(this.state.responseCode==404){
+    //   console.log("code",this.state.responseCode)
+    //  }
    
+
   }
+
 
     extract =()=>{
       // Alert.alert("ok")
@@ -107,6 +160,8 @@ class Home extends Component {
        temp["image_url"] = $('img',dataurl).data().original
        temp["desc"] = $('.card-text',dataurl).text()
         data.push(temp)
+
+        console.log("near:",this.state.dist)
     }
 
     
@@ -118,7 +173,7 @@ class Home extends Component {
   constructor(){
     super()
    
-    Geolocation.getCurrentPosition(
+    Geolocation.watchPosition(
       info =>{
         this.setState({
           lat:info.coords.latitude,
