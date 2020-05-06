@@ -10,7 +10,7 @@ import {
     SafeAreaView,
     Alert,
 } from "react-native";
-import MapView, { PROVIDER_GOOGLE,Marker,Callout,Polygon} from 'react-native-maps';
+import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import { createNoSubstitutionTemplateLiteral } from "typescript";
 //const origin = {latitude:this.state.lat , longitude: this.state.lng};
@@ -23,6 +23,7 @@ export default class RoadAssist extends Component {
             search:'',
             dist:null,
             time:null,
+            //gas_stations:[]
         }
     }
     state={
@@ -39,11 +40,31 @@ this.setState({
         lng,
     })
     }
+    componentDidMount = () => {
+        fetch('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location='+this.state.lat+','+this.state.lng+'&radius=5000&type=gas_station&key=AIzaSyChiwupcs4om20XFLC7iylVTO5Ef6OTH90', {
+           method: 'GET'
+        })
+        .then((response) => response.json())
+        .then((responseJson) => {
+           console.log(responseJson.results[1]);
+           this.setState({
+              data: responseJson
+           })
+        })
+        .catch((error) => {
+           console.error(error);
+        });
+     }
 render(){
     var dist=null;
     var time=null;
     return(
         <View style={styles.container}>
+            <TouchableOpacity style={{alignSelf: "flex-start", marginleft: 15,}} onPress={()=>this.props.navigation.navigate('Home')}>
+                  <Image 
+                  source={require('./images/back.png')}
+                  style={{ width: 21.96, height: 21}} />
+                  </TouchableOpacity>
 <TextInput onChangeText={(search) => this.setState({search})}
 placeholder={'Enter Destination'}/>
      <MapView
@@ -75,10 +96,9 @@ placeholder={'Enter Destination'}/>
           onError={(errorMessage) => {
             console.log('GOT AN ERROR');
           }}/>
-         
      </MapView>
-     <Text>Distance:{this.state.dist}</Text>
-        <Text>Time:{this.state.time}</Text>
+     <Text>Distance:{this.state.dist}km</Text>
+        <Text>Time:{this.state.time}min</Text>
      </View>
     );
 };
@@ -93,6 +113,23 @@ const styles = StyleSheet.create({
     map:{
     height:'80%',
         marginBottom: 5
-    }
+    },
+    signButton: {
+        // alignSelf: 'center',
+         marginTop: 10,
+         marginLeft: 0,
+         marginRight: 0,
+         marginBottom: 0,
+       },
+       bodyTxt: {
+        fontFamily: 'Montserrat-Regular',
+        fontSize: 14,
+        color: '#ffffff',
+        marginTop: 58,
+        marginBottom: 0,
+        marginRight: 0,
+        marginLeft: 0,
+        alignSelf: 'center',
+      },
           
 });
