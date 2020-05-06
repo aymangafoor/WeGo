@@ -20,6 +20,7 @@ import config from '../config/firebase';
 import { Drawer } from "react-native-router-flux";
 import { readBuilderProgram } from "typescript";
 import Login from "./LoginScreen";
+import Assist from "./RoadAssist";
 import Geolocation from '@react-native-community/geolocation';
 import Geocoder from 'react-native-geocoding';
 class Home extends Component {
@@ -224,8 +225,8 @@ class Home extends Component {
                 <Text style={styles.Text}>Other Sevices</Text>
                 </View>
                 <View style={{flexDirection: "row"}}>
-                <TouchableOpacity style={styles.signButton} activeOpacity={0.5}>
-                 <Text style={styles.btnTxt}> Road Assistance </Text>
+                <TouchableOpacity style={styles.signButton} onPress={()=>this.props.navigation.navigate("Assist",{lat:this.state.lat,lng:this.state.lng})} activeOpacity={0.5}>
+                 <Text style={styles.btnTxt} > Road Assistance </Text>
                  </TouchableOpacity>
                  <TouchableOpacity style={styles.signButton} activeOpacity={0.5}>
                  <Text style={styles.btnTxt}>Rental</Text>
