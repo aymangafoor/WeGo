@@ -9,9 +9,27 @@ import {
     ScrollView,
     Image
 } from "react-native";
+import ImagePicker from 'react-native-image-crop-picker';
 import firebase, { auth } from "firebase";
 import config from '../config/firebase';
+//this.props.navigation.navigate('Home', {data:this.state.image})
 class RewardScreen extends Component{
+  constructor(props){
+    super(props)
+    this.state={
+      image: ''
+    }
+  }
+  goToPickImage=()=>{
+    ImagePicker.openPicker({
+      width: 300,
+      height: 400,
+      cropping: true
+    }).then(image => {
+      console.log(image);
+      this.setState({image:image.path})
+    });
+  }
     render(){
         return(
               <View style={styles.container}>
@@ -20,10 +38,16 @@ class RewardScreen extends Component{
                   source={require('./images/back.png')}
                   style={{ width: 21.96, height: 21}} />
                   </TouchableOpacity>
-                  <Image 
-                source={require('./images/user.png')}
-                style={{ width: 160, height: 160, alignSelf: "center",}} />
-              
+                  <TouchableOpacity 
+                  onPress={()=> this.goToPickImage()}
+                  placeholder={'ADD PHOTO'}
+                  placeholderTextColor={'black'}
+                  style={{width: 160, height: 160, alignSelf: "center",borderRadius:160,backgroundColor:'blue'}}>
+                    {this.state.image != '' &&(
+                  <Image source={{uri: this.state.image}}
+                style={{ width: 160, height: 160, alignSelf: "center",borderRadius:160}} />
+                    )}
+              </TouchableOpacity>
         <Text style={styles.Text}>{firebase.auth().currentUser.email}</Text>
         <View style={{flexDirection: "row"}}>
         <Image 
@@ -38,6 +62,7 @@ class RewardScreen extends Component{
         );
     }
 }
+
 export default RewardScreen;
 const styles = StyleSheet.create({
     container: {

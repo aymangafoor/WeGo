@@ -24,16 +24,23 @@ import Assist from "./RoadAssist";
 import Geolocation from '@react-native-community/geolocation';
 import Geocoder from 'react-native-geocoding';
 class Home extends Component {
-  state ={
+    state ={
     lat : null,
     lng : null,
     place:null,
     dist:null,
+    //image:null,
     count:0,
     htmlcode:null,
     places:[],
     responseCode:null
   }
+  /*componentWillMount(){
+    let image =this.props.navigation.getParam('image',[])
+  this.setState({
+    image,
+  })
+  }*/
   getData(){
     // const $ = require('react-native-cheerio');
     Geocoder.init("AIzaSyChiwupcs4om20XFLC7iylVTO5Ef6OTH90",{language : "en"});
@@ -202,7 +209,8 @@ class Home extends Component {
              </TouchableOpacity >
              
                <Image 
-                source={require('./images/user.png')}
+                //source={require('./images/user.png')}
+                source={{uri: this.state.image}}
                 style={{ width: 42, height: 42, alignSelf: "flex-end",marginTop:-20}} />
                 <View>
                 <Text style={{color:'white'}}>{this.state.place}</Text>
