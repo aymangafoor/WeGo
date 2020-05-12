@@ -18,7 +18,7 @@ import {
 } from "react-native";
 
 class Main extends Component {
-componentWillMount(){
+UNSAFE_componentWillMount(){
     firebase.auth().onAuthStateChanged((usr)=>{
         if(usr){
         this.setState({

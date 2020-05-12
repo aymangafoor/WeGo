@@ -10,6 +10,10 @@ import SignlePlace from '../screens/SignlePlace';
 import Signout from '../screens/Signout';
 import {Text, Dimensions} from "react-native";
 import SideBar from '../screens/SideBar';
+import gas from '../screens/gasStation';
+import restaurant from '../screens/restaurant';
+
+
 
 const ScreenContainer =  createDrawerNavigator ({
    Home:{
@@ -22,11 +26,14 @@ const ScreenContainer =  createDrawerNavigator ({
    },
    About:{
       screen:About,
-      navigationOptions:{title:"About Us"}
+      navigationOptions:{
+         title:"About Us",}
    },
    Near_Place,
    SignlePlace,
    Assist,
+   gas,
+   restaurant,
    Signout
    
 
