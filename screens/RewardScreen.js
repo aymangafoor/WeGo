@@ -7,13 +7,15 @@ import {
     TouchableOpacity,
     TextInput,
     ScrollView,
-    Image
+    Image,
+    FlatList,
 } from "react-native";
 import ImagePicker from 'react-native-image-crop-picker';
 import firebase, { auth } from "firebase";
 import config from '../config/firebase';
 //this.props.navigation.navigate('Home', {data:this.state.image})
 class RewardScreen extends Component{
+  
   constructor(props){
     super(props)
     this.state={
@@ -24,10 +26,13 @@ class RewardScreen extends Component{
     ImagePicker.openPicker({
       width: 300,
       height: 400,
-      cropping: true
+      cropping: true,
+      cropperCircleOverlay: true,
     }).then(image => {
       console.log(image);
       this.setState({image:image.path})
+      this.props.navigation.navigate('Home', {image: this.state.image});
+      
     });
   }
     render(){
@@ -48,6 +53,7 @@ class RewardScreen extends Component{
                 style={{ width: 160, height: 160, alignSelf: "center",borderRadius:160}} />
                     )}
               </TouchableOpacity>
+              
         <Text style={styles.Text}>{firebase.auth().currentUser.email}</Text>
         <View style={{flexDirection: "row"}}>
         <Image 
@@ -61,6 +67,7 @@ class RewardScreen extends Component{
          
         );
     }
+    
 }
 
 export default RewardScreen;

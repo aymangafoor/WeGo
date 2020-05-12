@@ -30,7 +30,7 @@ class NearPlace extends Component {
      link:null,
      htmlcode:null
  }
-  componentWillMount(){
+  UNSAFE_componentWillMount(){
     let linkdata =this.props.navigation.getParam('link')
     this.setState({
         link:linkdata

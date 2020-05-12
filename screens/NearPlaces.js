@@ -29,7 +29,7 @@ class NearPlace extends Component {
  state ={
      data:[]
  }
-  componentWillMount(){
+  UNSAFE_componentWillMount(){
     let arr =this.props.navigation.getParam('data',[])
     this.setState({
         data:arr

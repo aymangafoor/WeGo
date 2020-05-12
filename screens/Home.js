@@ -29,18 +29,20 @@ class Home extends Component {
     lng : null,
     place:null,
     dist:null,
+    data:'',
+    image:'',
     //image:null,
     count:0,
     htmlcode:null,
     places:[],
     responseCode:null
   }
-  /*componentWillMount(){
+  UNSAFE_componentWillMount(){
     let image =this.props.navigation.getParam('image',[])
   this.setState({
-    image,
+    image
   })
-  }*/
+}
   getData(){
     // const $ = require('react-native-cheerio');
     Geocoder.init("AIzaSyChiwupcs4om20XFLC7iylVTO5Ef6OTH90",{language : "en"});
@@ -207,11 +209,10 @@ class Home extends Component {
                 source={require('./images/drawer.png')}
                 style={{ width: 36.5, height: 19.13}} />
              </TouchableOpacity >
-             
-               <Image 
-                //source={require('./images/user.png')}
-                source={{uri: this.state.image}}
-                style={{ width: 42, height: 42, alignSelf: "flex-end",marginTop:-20}} />
+              <Image 
+                //source={{uri: this.state.image}}
+                source={require('./images/user.png')}
+                style={{ width: 42, height: 42,borderRadius:42, alignSelf: "flex-end",marginTop:-20}} />
                 <View>
                 <Text style={{color:'white'}}>{this.state.place}</Text>
                 </View>
