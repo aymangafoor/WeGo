@@ -12,6 +12,9 @@ import {Text, Dimensions} from "react-native";
 import SideBar from '../screens/SideBar';
 import gas from '../screens/gasStation';
 import restaurant from '../screens/restaurant';
+import hospital from '../screens/hospital';
+import carRepair from '../screens/carRepair';
+import atm from '../screens/atm';
 
 
 
@@ -34,6 +37,9 @@ const ScreenContainer =  createDrawerNavigator ({
    Assist,
    gas,
    restaurant,
+   hospital,
+   carRepair,
+   atm,
    Signout
    
 

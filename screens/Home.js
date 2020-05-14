@@ -96,7 +96,7 @@ class Home extends Component {
      }
     }
     
-  loadGraphicCards=(dis = this.state.dist.address_components[2].long_name)  => {
+  loadGraphicCards=(dis = this.state.dist.address_components[3].long_name)  => {
     var quizUrl = `https://www.holidify.com/places/${dis}/sightseeing-and-things-to-do.html`;
 
     console.log(quizUrl)

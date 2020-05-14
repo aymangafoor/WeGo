@@ -10,12 +10,13 @@ import {
     SafeAreaView,
     Alert,
     FlatList,
-    Dimensions
+    Dimensions,
+    ActivityIndicator
 } from "react-native";
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import { createNoSubstitutionTemplateLiteral } from "typescript";
-//import { FlatList } from "react-native-gesture-handler";
+import {NavigationEvents} from 'react-navigation'
 //const origin = {latitude:this.state.lat , longitude: this.state.lng};
 //const destination = {latitude: 11.120298, longitude: 76.119965};
 const GOOGLE_MAPS_APIKEY = 'AIzaSyChiwupcs4om20XFLC7iylVTO5Ef6OTH90';
@@ -27,7 +28,8 @@ export default class RoadAssist extends Component {
             dist:null,
             time:null,
             gasedata: [],
-            data:[]
+            locate:null,
+            longate:null,
             //gas_stations:[]
         }
     }
@@ -42,39 +44,69 @@ export default class RoadAssist extends Component {
     UNSAFE_componentWillMount(){
         let lat =this.props.navigation.getParam('lat',[])
         let lng =this.props.navigation.getParam('lng',[])
-        let locate =this.props.navigation.getParam('name',[])
+        let locate =this.props.navigation.getParam('latserv',[])
+        let longate =this.props.navigation.getParam('lngserv',[])
+
 this.setState({
         lat,
         lng,
-        locate
+        locate,
+        longate
     })
     }
   render(){
     var dist=null;
     var time=null;
-   if(this.state.lat) return(
-        <View style={styles.container}>
+   if(!this.state.lat) return(
+        <View>
+          <ActivityIndicator/>
+        </View>
+    );
+
+else return(
+<View style={styles.container}>
+  <NavigationEvents
+        onDidFocus={()=>this.setState({})}/>
             <TouchableOpacity style={{alignSelf: "flex-start", marginleft: 15,}} onPress={()=>this.props.navigation.navigate('Home')}>
                   <Image 
                   source={require('./images/back.png')}
                   style={{ width: 21.96, height: 21}} />
                   </TouchableOpacity>
-   <Text style={{color:'black'}}>hi</Text>
+  {/* <Text style={{color:'black'}}>hi{this.state.locate}</Text> */}
 <TextInput style={styles.emailField} onChangeText={(search) => this.setState({search})}
 placeholder={'Enter Destination'}/>
-<View style={{flexDirection:'row',marginLeft:1}}>
-    <TouchableOpacity style={styles.signButton} onPress={()=>this.props.navigation.navigate("gas",{lat:this.state.lat,lng:this.state.lng})} activeOpacity={0.5}>
+<View style={{flexDirection:'row',marginLeft:1,flex:1,marginRight:1,alignSelf:'center',width:'100%'}}>
+    <TouchableOpacity style={{flexDirection: "row", backgroundColor:'grey',borderRadius:5,marginLeft: 5,height:20}} onPress={()=>this.props.navigation.navigate("gas",{lat:this.state.lat,lng:this.state.lng})} activeOpacity={0.5}>
 <Image
             style={{width:15,height:15}}
             source={{uri:"https://maps.gstatic.com/mapfiles/place_api/icons/gas_station-71.png"}}/>
                  <Text style={styles.btnTxt} >Petrol</Text>
                  </TouchableOpacity>
-                 <TouchableOpacity style={styles.signButton} onPress={()=>this.props.navigation.navigate("restaurant",{lat:this.state.lat,lng:this.state.lng})} activeOpacity={0.5}>
+                 <TouchableOpacity style={{flexDirection: "row", backgroundColor:'grey',borderRadius:5,marginLeft: 5,height:20}} onPress={()=>this.props.navigation.navigate("restaurant",{lat:this.state.lat,lng:this.state.lng})} activeOpacity={0.5}>
 <Image
             style={{width:15,height:15}}
             source={{uri:"https://maps.gstatic.com/mapfiles/place_api/icons/restaurant-71.png"}}/>
                  <Text style={styles.btnTxt} >Restaurant</Text>
                  </TouchableOpacity>
+                 <TouchableOpacity style={{flexDirection: "row", backgroundColor:'grey',borderRadius:5,marginLeft: 5,height:20}} onPress={()=>this.props.navigation.navigate("hospital",{lat:this.state.lat,lng:this.state.lng})} activeOpacity={0.5}>
+                 <Image
+            style={{width:15,height:15}}
+            source={{uri:"https://maps.gstatic.com/mapfiles/place_api/icons/doctor-71.png"}}/>
+                 <Text style={styles.btnTxt} >Hospital</Text>
+                 </TouchableOpacity>
+                 <TouchableOpacity style={{flexDirection: "row", backgroundColor:'grey',borderRadius:5,marginLeft: 5,height:20}} onPress={()=>this.props.navigation.navigate("atm",{lat:this.state.lat,lng:this.state.lng})} activeOpacity={0.5}>
+                 <Image
+            style={{width:15,height:15}}
+            source={{uri:"https://maps.gstatic.com/mapfiles/place_api/icons/atm-71.png"}}/>
+                 <Text style={styles.btnTxt} >ATM</Text>
+                 </TouchableOpacity>
+                 <TouchableOpacity style={{flexDirection: "row", backgroundColor:'grey',borderRadius:5,marginLeft: 5,height:20}} onPress={()=>this.props.navigation.navigate("carRepair",{lat:this.state.lat,lng:this.state.lng})} activeOpacity={0.5}>
+                 <Image
+            style={{width:15,height:15}}
+            source={{uri:"https://maps.gstatic.com/mapfiles/place_api/icons/car_repair-71.png"}}/>
+                 <Text style={styles.btnTxt} >Car Repair</Text>
+                 </TouchableOpacity>
+
                  </View>
      <MapView
      showsUserLocation
@@ -105,9 +137,10 @@ placeholder={'Enter Destination'}/>
           onError={(errorMessage) => {
             console.log('GOT AN ERROR');
           }}/>
+          {this.state.locate != null &&(
           <MapViewDirections
          origin={{latitude:this.state.lat , longitude: this.state.lng}}
-         destination={this.state.latserv}
+         destination={{latitude:this.state.locate,longitude: this.state.longate}}
          apikey={GOOGLE_MAPS_APIKEY}
          strokeWidth={3}
          optimizeWaypoints={true}
@@ -123,26 +156,11 @@ placeholder={'Enter Destination'}/>
         }}
           onError={(errorMessage) => {
             console.log('GOT AN ERROR');
-          }}/>
+          }}/>)}
      </MapView>
-     <Text style={{fontFamily: 'Montserrat-Bold'}}>Distance:{this.state.dist}km</Text>
-        <Text style={{fontFamily: 'Montserrat-Bold'}}>Time:{this.state.time}min</Text>
+     <Text style={{fontFamily: 'Montserrat-Bold',marginLeft:5}}>Distance:{this.state.dist}km</Text>
+        <Text style={{fontFamily: 'Montserrat-Bold',marginLeft:5,marginBottom:5}}>Time:{this.state.time}min</Text>
      </View>
-    );
-
-else return(
-<View style={styles.container}>
-<MapView
-    style={styles.maps}
-    showsUserLocation
-    initialRegion={{
-      latitude: 37.78825,
-      longitude: -122.4324,
-      latitudeDelta: 0.0922,
-      longitudeDelta: 0.0421,
-    }}
-  />
-</View>
 );
 }}
 const styles = StyleSheet.create({
@@ -153,7 +171,7 @@ const styles = StyleSheet.create({
         //justifyContent: 'center'
     },
     map:{
-    height:'74%',
+    height:'78%',
         marginBottom: 5
     },
     maps:{
@@ -167,7 +185,7 @@ const styles = StyleSheet.create({
          marginLeft: 5,
          marginRight: 0,
          marginBottom: 0,
-         width:Dimensions.get('screen').width*0.11,
+         width:10,
          backgroundColor:'grey',
          borderRadius:5
        },
@@ -177,8 +195,8 @@ const styles = StyleSheet.create({
         color: '#ffffff',
         marginTop: 58,
         marginBottom: 0,
-        marginRight: 0,
-        marginLeft: 0,
+        marginRight: 15,
+        marginLeft: 5,
         alignSelf: 'center',
       },
       emailField: {
