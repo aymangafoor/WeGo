@@ -40,6 +40,8 @@ target 'WeGo' do
   pod 'react-native-maps', :path => '../node_modules/react-native-maps'
 
 
+  pod 'RNFirebase', :path => '../node_modules/react-native-firebase'
+
   target 'WeGoTests' do
     inherit! :search_paths
     # Pods for testing

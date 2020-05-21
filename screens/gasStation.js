@@ -55,7 +55,7 @@ this.setState({
         })
         .then((response) => response.json())
         .then((responseJson) => {
-           console.log(responseJson.results[1]);
+           //console.log(responseJson.results[1]);
            this.setState({
               gasedata: responseJson.results
            })
@@ -95,7 +95,8 @@ const styles = StyleSheet.create({
     },
     flat:{
         marginBottom:3,
-        borderRadius:20
+        borderRadius:20,
+        
     },
     items:{
         color: '#314256',
@@ -107,12 +108,17 @@ const styles = StyleSheet.create({
     button:{
         marginLeft:5,
         marginRight:20,
+        marginEnd:5,
+        marginTop:5,
+        marginBottom:5,
         borderRadius:20,
-        borderBottomWidth: 2,
-        borderTopWidth:2,
-        borderLeftWidth:2,
-        borderRightWidth:2,
+        //borderWidth: 2,
+        shadowColor: '#000000',
+        shadowOffset:{width:0,height:0},
+        shadowOpacity:0.58,
+        shadowRadius:16,
+        elevation:24,
         //borderStyle:2
-        width:'98%'
+        width:'100%'
     }
 });

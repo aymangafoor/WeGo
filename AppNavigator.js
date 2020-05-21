@@ -3,12 +3,13 @@ import {createStackNavigator} from 'react-navigation-stack';
 import SplashScreen from './screens/SplashScreen';
 import LoginScreen from './screens/LoginScreen';
 import SignUpScreen from './screens/SignUpScreen';
+import gasStation from './screens/gasStation';
 
 const AppNavigator = createStackNavigator(
   {
     Splash: {screen: SplashScreen},
     Login: {screen: LoginScreen},
-    SignUp: {screen: SignUpScreen},
+    SignUp: {screen: SignUpScreen}
   },
   {
     headerMode: false,

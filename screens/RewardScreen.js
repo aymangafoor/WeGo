@@ -3,7 +3,7 @@ import {
     View,
     Text,
     StyleSheet,
-    Button,
+    AsyncStorage,
     TouchableOpacity,
     TextInput,
     ScrollView,
@@ -13,13 +13,19 @@ import {
 import ImagePicker from 'react-native-image-crop-picker';
 import firebase, { auth } from "firebase";
 import config from '../config/firebase';
+import { Item } from "native-base";
+import { isConstructorDeclaration } from "typescript";
 //this.props.navigation.navigate('Home', {data:this.state.image})
 class RewardScreen extends Component{
   
   constructor(props){
+    const user=[];
     super(props)
     this.state={
-      image: ''
+      image: '',
+      emailid:firebase.auth().currentUser.email,
+      userData:[],
+      keyid:'abcde'
     }
   }
   goToPickImage=()=>{
@@ -35,7 +41,43 @@ class RewardScreen extends Component{
       
     });
   }
+  getUser = () =>{
+    fetch('https://wego-275411.firebaseio.com/users.json')
+    .then((res)=> res.json())
+    .then((usernm)=>{
+      console.log('hi',usernm);
+      const user=[];
+      for(const key in usernm){
+        const st1=usernm[key].email
+        const st2=st1.toLowerCase();
+        console.log( typeof usernm[key].email,'$',typeof this.state.emailid);
+        console.log(st2,'-',this.state.emailid)
+       if(st2 == this.state.emailid){
+        this.setState({
+         userData:usernm[key]
+        })
+        
+        //this.setState({name:user.name})
+        console.log(this.state.userData);
+      }
+      if(this.state.userData.name != null)
+        break;
+    }
+    
+    })
+  }
+  setname = async ()=>{
+try{
+await AsyncStorage.setItem('name',this.state.userData.name)
+}catch (error){
+  console.log(error);
+  
+}
+  }
     render(){
+this.getUser();
+this.setname();
+
         return(
               <View style={styles.container}>
                   <TouchableOpacity style={{alignSelf: "flex-start", marginleft: 15,}} onPress={()=>this.props.navigation.navigate('Home')}>
@@ -53,8 +95,7 @@ class RewardScreen extends Component{
                 style={{ width: 160, height: 160, alignSelf: "center",borderRadius:160}} />
                     )}
               </TouchableOpacity>
-              
-        <Text style={styles.Text}>{firebase.auth().currentUser.email}</Text>
+                    <Text style={styles.Text}>{this.state.userData.name}</Text>
         <View style={{flexDirection: "row"}}>
         <Image 
                 source={require('./images/coin.png')}
@@ -66,10 +107,10 @@ class RewardScreen extends Component{
                 </View>
          
         );
-    }
+      }
+    
     
 }
-
 export default RewardScreen;
 const styles = StyleSheet.create({
     container: {

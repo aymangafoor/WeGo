@@ -10,40 +10,54 @@ import {
 } from 'react-native';
 
 import firebase, { auth } from "firebase";
+import firestore from "firebase/firestore"
 import config from '../config/firebase';
 export default class SignUpScreen extends React.Component {
-
+  registerUser = () => {
+    fetch('https://wego-275411.firebaseio.com/users.json', {
+      method: 'POST',
+      body: JSON.stringify({
+        name: this.state.name,
+        email: this.state.email
+      })
+    })
+      .then(res => console.log(res))
+      .catch(err => console.log(err));
+  }
   state = {
-  email :null,
-  password : null,
+    email: null,
+    password: null,
+    name: null
   }
 
-  Signup = ()=>{
-   if(this.state.email == null && this.state.password == null){
-        Alert.alert("Error","All fields are mandatory")
+  Signup = () => {
+    if (this.state.email == null && this.state.password == null && this.state.name == null) {
+      Alert.alert("Error", "All fields are mandatory")
       return;
-      }
-      try{
-        firebase
+    }
+    try {
+      firebase
         .auth()
         .createUserWithEmailAndPassword
-        (this.state.email,this.state.password).
+        (this.state.email, this.state.password).
         catch((error) => Alert.alert(error.toString(error)))
         .then((user) => {
-            console.log(user);
-            if(user){
+          console.log(user);
+          if (user) {
             Alert.alert("Account Created");
+            this.registerUser()
             this.props.navigation.navigate('Home')
-            }
+
+          }
 
         });
-    }catch (error) {
-        console.log(error.toString(error));
-      }
+    } catch (error) {
+      console.log(error.toString(error));
+    }
 
 
 
-   
+
   }
   render() {
     return (
@@ -53,35 +67,43 @@ export default class SignUpScreen extends React.Component {
         <View>
           <TextInput
             placeholderTextColor={'#86898E'}
-            placeholder={'Email'}
+            placeholder={'Name'}
             style={styles.emailField}
-            onChangeText={(email)=>{this.setState({email})}}
+            onChangeText={(name) => { this.setState({ name }) }}
           />
           <View>
             <TextInput
-              secureTextEntry={true}
-              style={styles.default}
               placeholderTextColor={'#86898E'}
-              placeholder={'Password'}
-              style={styles.pwdField}
-              onChangeText={(password)=>{this.setState({password})}}
+              placeholder={'Email'}
+              style={styles.emailField}
+              onChangeText={(email) => { this.setState({ email }) }}
             />
             <View>
-              <TouchableOpacity
-                style={styles.signButton}
-                activeOpacity={0.5}
-                onPress={this.Signup}>
-                <Text style={styles.btnTxt}> Sign up </Text>
-              </TouchableOpacity>
+              <TextInput
+                secureTextEntry={true}
+                style={styles.default}
+                placeholderTextColor={'#86898E'}
+                placeholder={'Password'}
+                style={styles.pwdField}
+                onChangeText={(password) => { this.setState({ password }) }}
+              />
               <View>
-                <Text style={styles.bodyTxt}>Already a member? </Text>
                 <TouchableOpacity
-                  onPress={() => this.props.navigation.navigate('Login')}>
-                  <Text style={styles.signInTxt}>Sign in </Text>
+                  style={styles.signButton}
+                  activeOpacity={0.5}
+                  onPress={this.Signup}>
+                  <Text style={styles.btnTxt}> Sign up </Text>
                 </TouchableOpacity>
-              </View>
-              <View>
-                <Text style={styles.footerTxt}>WeGo</Text>
+                <View>
+                  <Text style={styles.bodyTxt}>Already a member? </Text>
+                  <TouchableOpacity
+                    onPress={() => this.props.navigation.navigate('Login')}>
+                    <Text style={styles.signInTxt}>Sign in </Text>
+                  </TouchableOpacity>
+                </View>
+                <View>
+                  <Text style={styles.footerTxt}>WeGo</Text>
+                </View>
               </View>
             </View>
           </View>

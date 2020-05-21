@@ -7,18 +7,18 @@ import {
     View,
     Text,
     StyleSheet,
-    Button,
+    AsyncStorage,
     TouchableOpacity,
     TextInput,
     Image,
     SafeAreaView,
     Alert,
+    YellowBox
 } from "react-native";
 // import cio from 'cheerio-without-node-native';
 import firebase, { auth } from "firebase";
 import config from '../config/firebase';
 import { Drawer } from "react-native-router-flux";
-import { readBuilderProgram } from "typescript";
 import Login from "./LoginScreen";
 import Assist from "./RoadAssist";
 import Geolocation from '@react-native-community/geolocation';
@@ -29,19 +29,22 @@ class Home extends Component {
     lng : null,
     place:null,
     dist:null,
-    data:'',
     image:'',
-    //image:null,
     count:0,
     htmlcode:null,
     places:[],
-    responseCode:null
+    responseCode:null,
+    name:null
   }
   UNSAFE_componentWillMount(){
-    let image =this.props.navigation.getParam('image',[])
+    //let image =this.props.navigation.getParam('image',[])
+    this.props.navigation.addListener(
+      'willFocus',
+      () => {
   this.setState({
-    image
+    image:this.props.navigation.getParam('image',[])
   })
+})
 }
   getData(){
     // const $ = require('react-native-cheerio');
@@ -184,6 +187,7 @@ class Home extends Component {
     })
     }
   constructor(){
+    YellowBox.ignoreWarnings(['Require cycle','Setting a timer']);
     super()
    
     Geolocation.watchPosition(
@@ -195,13 +199,31 @@ class Home extends Component {
         this.getData()
       });
     }
+    setname = async ()=>{
+      try{
+      await AsyncStorage.setItem('image',this.state.image)
+      }catch (error){
+        console.log(error);
+        
+      }
+        }
+    getname = async () =>{
+      try{
+this.state.name = await AsyncStorage.getItem('name');
+if(this.state.name !== null){
+  //console.log(this.state.name)
+}
+      }catch(error){
+console.log(error);
+
+      }
+    }
      render() {
+       this.getname();
+       this.setname();
         return (
             
           <SafeAreaView style={styles.container}>
-            {/* <TouchableOpacity onPress={()=>{this.getData()}}>
-              <Text>Address</Text>
-            </TouchableOpacity> */}
                  <View style={styles.SquareShapeView} >
               
                 <TouchableOpacity style={{alignSelf: "flex-start", marginleft: 15,marginTop:10}} onPress={this.props.navigation.openDrawer}>
@@ -209,22 +231,23 @@ class Home extends Component {
                 source={require('./images/drawer.png')}
                 style={{ width: 36.5, height: 19.13}} />
              </TouchableOpacity >
-              <Image 
-                //source={{uri: this.state.image}}
-                source={require('./images/user.png')}
-                style={{ width: 42, height: 42,borderRadius:42, alignSelf: "flex-end",marginTop:-20}} />
+             {this.state.image != '' &&(<Image 
+                source={{uri: this.state.image}}
+                //source={require('./images/user.png')}
+                style={{ width: 42, height: 42,borderRadius:42, alignSelf: "flex-end",marginTop:-20}} />)}
                 <View>
                 <Text style={{color:'white'}}>{this.state.place}</Text>
                 </View>
              </View>
              
                 <Text style={styles.Text}>Nearby Services</Text>
+                <Text></Text>
                 <View style={{flexDirection: "row"}}>
                 <TouchableOpacity style={styles.signButton} onPress={()=>this.props.navigation.navigate("Near_Place",{data:this.state.places})} activeOpacity={0.5}>
                  <Text style={styles.btnTxt}> Places </Text>
                  </TouchableOpacity>
-                 <TouchableOpacity style={styles.signButton} activeOpacity={0.5}>
-                 <Text style={styles.btnTxt}>Gase Stations</Text>
+                 <TouchableOpacity style={styles.signButton} onPress={()=>this.props.navigation.navigate("food",{data:this.state.places})} activeOpacity={0.5}>
+                 <Text style={styles.btnTxt}>Food to Explore</Text>
                  </TouchableOpacity>
                  </View>
                  <TouchableOpacity style={styles.signButton}  activeOpacity={0.5}>
@@ -237,7 +260,7 @@ class Home extends Component {
                 <TouchableOpacity style={styles.signButton} onPress={()=>this.props.navigation.navigate("Assist",{lat:this.state.lat,lng:this.state.lng})} activeOpacity={0.5}>
                  <Text style={styles.btnTxt} > Road Assistance </Text>
                  </TouchableOpacity>
-                 <TouchableOpacity style={styles.signButton} activeOpacity={0.5}>
+                 <TouchableOpacity style={styles.signButton} activeOpacity={0.5} >
                  <Text style={styles.btnTxt}>Rental</Text>
                  </TouchableOpacity>
                 </View>

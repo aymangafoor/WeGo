@@ -1,13 +1,15 @@
 import firebase from "firebase";
+import 'firebase/firestore';
+import 'firebase/storage';
 const config = {
-    apiKey: "AIzaSyCxkdtZXgZABTCisUrSZGlkxtcHeYFi2kU",
-    authDomain: "wego-cc67c.firebaseapp.com",
-    databaseURL: "https://wego-cc67c.firebaseio.com",
-    projectId: "wego-cc67c",
-    storageBucket: "wego-cc67c.appspot.com",
-    messagingSenderId: "153058417514",
-    appId: "1:153058417514:web:5db19b0a3db13248ea6313",
-    measurementId: "G-KBMCEJ2VC6"
-};
-const fire = firebase.initializeApp(config);
-export default fire;
+    apiKey: "AIzaSyCWeDRjEg5auU_XC6kgNjaCJho0EHSx_uY",
+    authDomain: "wego-275411.firebaseapp.com",
+    databaseURL: "https://wego-275411.firebaseio.com",
+    projectId: "wego-275411",
+    storageBucket: "wego-275411.appspot.com",
+    messagingSenderId: "874988712722",
+    appId: "1:874988712722:web:e4ba2fc66f8ddf1cfd79cb",
+    measurementId: "G-949YWM9S43"
+  };
+  const app = firebase.initializeApp(config);
+  export const db = app.database();

@@ -32,15 +32,60 @@ const ScreenContainer =  createDrawerNavigator ({
       navigationOptions:{
          title:"About Us",}
    },
-   Near_Place,
-   SignlePlace,
-   Assist,
-   gas,
-   restaurant,
-   hospital,
-   carRepair,
-   atm,
-   Signout
+   Signout:{
+      screen:Signout,
+      navigationOptions:{
+         title:"Log Out",}
+   },
+   Near_Place:{
+      screen:Near_Place,
+      navigationOptions:{
+         drawerLabel: () => null,
+         }
+   },
+   SignlePlace:{
+      screen:SignlePlace,
+      navigationOptions:{
+         drawerLabel: () => null,
+         }
+   },
+   Assist:{
+      screen:Assist,
+      navigationOptions:{
+         drawerLabel: () => null,
+         }
+   },
+   gas:{
+      screen:gas,
+      navigationOptions:{
+         drawerLabel: () => null,
+         }
+   },
+   restaurant:{
+      screen:restaurant,
+      navigationOptions:{
+         drawerLabel: () => null,
+         }
+   },
+   hospital:{
+      screen:hospital,
+      navigationOptions:{
+         drawerLabel: () => null,
+         }
+   },
+   carRepair:{
+      screen:carRepair,
+      navigationOptions:{
+         drawerLabel: () => null,
+         }
+   },
+   atm:{
+      screen:atm,
+      navigationOptions:{
+         drawerLabel: () => null,
+         }
+   }
+   
    
 
 
