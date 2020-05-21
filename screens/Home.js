@@ -42,7 +42,7 @@ class Home extends Component {
         var addressComponent = json.results[0].address_components[1];
         
          //console.log(addressComponent);
-        console.log("check",json.results[0].address_components)
+        console.log("check",json.results[0].address_components[5])
        this.setState({
          place:addressComponent.long_name,
          dist:json.results[0]
@@ -83,6 +83,7 @@ class Home extends Component {
           this.setState({count:5})
           return
         }
+      
      }
     }
     

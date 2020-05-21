@@ -14,9 +14,12 @@ import {
     SafeAreaView,
     Alert,
     TouchableWithoutFeedback,
-    TouchableHighlight
+    TouchableHighlight,
+    Dimensions
 } from "react-native";
 // import cio from 'cheerio-without-node-native';
+const width = Dimensions.get('window').width
+
 import firebase, { auth } from "firebase";
 import config from '../config/firebase';
 import { Drawer } from "react-native-router-flux";
@@ -28,7 +31,10 @@ import { ScrollView } from "react-native-gesture-handler";
 class NearPlace extends Component {
  state ={
      link:null,
-     htmlcode:null
+     htmlcode:null,
+     place_name:null,
+     desc:null,
+     img_url:null
  }
   componentWillMount(){
     let linkdata =this.props.navigation.getParam('link')
@@ -40,7 +46,6 @@ class NearPlace extends Component {
   }
 
   fetchfromweb = (data)=>{
-    console.log("ldedfdfdf",data)
     let url = data;
     console.log(url)
     var myHeaders = new Headers();
@@ -55,13 +60,45 @@ class NearPlace extends Component {
     this.setState({
       htmlcode:html
     })
-    console.log(html)
+    this.extract()
+    // console.log(html)
 })  
-//this.extract()
+
 })
 
   }
-
+extract =()=>{
+    const cheerio = require('react-native-cheerio')
+    const $ = cheerio.load(this.state.htmlcode)
+    let img_url_t = (($('.atf-cover-image')[0].attribs.style).slice(22,-3))
+    // console.log(JSON.stringify($('.atf-cover-image')[0].attribs.style).slice(23,-4))
+    this.setState({place_name:$('.heading1').text()})
+    this.setState({desc:$('.readMoreText').text()})
+    this.setState({img_url:img_url_t})
+}
+image_render = ()=>{
+    // console.log("new",this.state.img_url)
+    return(
+        <ScrollView 
+                horizontal={true}
+                >
+                <View style={{height:300,width:width,marginTop:20}}>
+                <View style={{flex:10}}>
+               {this.state.img_url !=null ?(
+               
+                <Image style={{flex:1,
+                    width:null,
+                    height:null,
+                    resizeMode:"cover"}} source={{uri:this.state.img_url}}/>
+                    
+               ):console.log(this.state.img_url)}
+                </View>
+                <View style={{flex:1,alignItems:"center",paddingTop:20}}>
+                </View>
+                </View>
+        </ScrollView>
+    )
+}
   
      render() {
         return (
@@ -77,18 +114,17 @@ class NearPlace extends Component {
             {/* <TouchableOpacity onPress={()=>{this.getData()}}>
               <Text>Address</Text>
             </TouchableOpacity> */}
-                 
-             
-                <Text style={styles.Text}>Nearby Places</Text>
-                <ScrollView 
-                horizontal={true}
-                >
-               
+                
+                <View style={{alignItems:"center"}}>
+                <Text style={[styles.Text,{paddingBottom:10}]}>{this.state.place_name}</Text>
+                </View>
+                 <ScrollView >
+                {this.image_render()}
+                
+                <View style={{paddingHorizontal:10}}>
+                <Text style={{fontSize: 16}}>{this.state.desc}</Text>
+                </View>
 
-                
-               
-                </ScrollView>
-                
                  <View>
                 <Text style={styles.Text}>Other Sevices</Text>
                 </View>
@@ -103,6 +139,7 @@ class NearPlace extends Component {
                 
         
         <Text style={styles.footerTxt}>WeGo</Text>
+        </ScrollView>
        </SafeAreaView>
         );
         
@@ -221,12 +258,13 @@ const styles = StyleSheet.create({
       },
       Text: {
         fontFamily: 'Montserrat-Bold',
+       
         fontSize: 20,
         marginLeft: 10,
         marginRight: 0,
         color: '#314256',
         marginHorizontal: 0,
-        marginTop: 40,
+        marginTop: 10,
     },
     texttap: {
         fontFamily: 'Montserrat-Regular',
