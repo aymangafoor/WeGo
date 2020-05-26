@@ -5,25 +5,25 @@ import firebase, { auth } from "firebase";
 import config from '../config/firebase';
 
 class SideBar extends Component {
-    constructor(){
+    constructor() {
         super()
-        this.state={
-            name:null,
-            image:''
+        this.state = {
+            name: null,
+            image: ''
         }
     }
-    getname = async () =>{
-        try{
-  this.state.name = await AsyncStorage.getItem('name');
-  this.state.image = await AsyncStorage.getItem('image')
-  if(this.state.name !== null){
-    console.log(this.state.name)
-  }
-        }catch(error){
-  console.log(error);
-  
+    getname = async () => {
+        try {
+            this.state.name = await AsyncStorage.getItem('name');
+            this.state.image = await AsyncStorage.getItem('image')
+            if (this.state.name !== null) {
+                console.log(this.state.name)
+            }
+        } catch (error) {
+            console.log(error);
+
         }
-      }
+    }
     render() {
         props = this.props
         this.getname();
@@ -31,8 +31,8 @@ class SideBar extends Component {
             <ScrollView style={styles.container}>
                 <View>
                     <Image
-                        source={{uri: this.state.image}}
-                        style={{ width: 62, height: 62,borderRadius:62, alignSelf: "center", marginTop: 10 }} />
+                        source={{ uri: this.state.image }}
+                        style={{ width: 62, height: 62, borderRadius: 62, alignSelf: "center", marginTop: 10 }} />
                     <Text style={styles.Text}>{this.state.name}</Text>
                     <View style={{ flexDirection: "row", alignSelf: 'center' }}>
                         <Image

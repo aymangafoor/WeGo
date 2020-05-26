@@ -15,6 +15,7 @@ import restaurant from '../screens/restaurant';
 import hospital from '../screens/hospital';
 import carRepair from '../screens/carRepair';
 import atm from '../screens/atm';
+import food from '../screens/Food';
 
 
 
@@ -84,11 +85,13 @@ const ScreenContainer =  createDrawerNavigator ({
       navigationOptions:{
          drawerLabel: () => null,
          }
+   },
+   food:{
+      screen:food,
+      navigationOptions:{
+         drawerLabel: () => null,
+         }
    }
-   
-   
-
-
 },{
    contentComponent: props => <SideBar{...props}/>,
    drawerWidth:Dimensions.get("window").width * 0.7,
