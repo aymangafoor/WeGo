@@ -79,10 +79,6 @@ renderItem ={this.renderItem}/>
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        flexDirection:'row',
-        marginBottom:3,
-       // alignItems: 'center',
-        //justifyContent: 'center'
     },
     Text: {
         fontFamily: 'Montserrat-Bold',
@@ -94,9 +90,7 @@ const styles = StyleSheet.create({
         marginTop: 40,
     },
     flat:{
-        marginBottom:3,
-        borderRadius:20,
-        
+        marginHorizontal:15,
     },
     items:{
         color: '#314256',
@@ -104,21 +98,13 @@ const styles = StyleSheet.create({
         marginBottom:5,
         marginLeft:5
 
+
     },
     button:{
-        marginLeft:5,
-        marginRight:20,
-        marginEnd:5,
-        marginTop:5,
-        marginBottom:5,
-        borderRadius:20,
-        //borderWidth: 2,
-        shadowColor: '#000000',
-        shadowOffset:{width:0,height:0},
-        shadowOpacity:0.58,
-        shadowRadius:16,
-        elevation:24,
-        //borderStyle:2
-        width:'100%'
+        backgroundColor:"#fff",
+        flexDirection:'row',
+        borderRadius:10,
+        padding:8,
+        marginVertical:8,
     }
 });

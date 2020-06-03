@@ -86,7 +86,7 @@ export default class RoadAssist extends Component {
           autoFocus={false}
           minLength={2}
           enablePoweredByContainer={false}
-          listViewDisplayed='auto'
+          listViewDisplayed='false'
           styles={{
             textInputContainer: {
               backgroundColor: 'rgba(0,0,0,0)',
@@ -117,7 +117,7 @@ export default class RoadAssist extends Component {
               color: '#1faadb',
             },
             listView:{
-              elevation:1,
+              zIndex:1,
               backgroundColor: '#0176FB',
               borderColor:'black'
             }

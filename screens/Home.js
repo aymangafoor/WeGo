@@ -189,7 +189,7 @@ class Home extends Component {
     })
   }
   constructor() {
-    YellowBox.ignoreWarnings(['Require cycle', 'Setting a timer']);
+    YellowBox.ignoreWarnings(['Require cycle', 'Setting a timer','source.uri']);
     super()
 
     Geolocation.watchPosition(
@@ -214,19 +214,14 @@ class Home extends Component {
     fetch('https://wego-275411.firebaseio.com/users.json')
       .then((res) => res.json())
       .then((usernm) => {
-        console.log('hi', usernm);
         for (const key in usernm) {
           const st1 = usernm[key].email
           const st2 = st1.toLowerCase();
-          console.log(typeof usernm[key].email, '$', typeof this.state.emailid);
           console.log(st2, '-', this.state.emailid)
           if (st2 == this.state.emailid) {
             this.setState({
               userData: usernm[key]
             })
-
-            //this.setState({name:user.name})
-            console.log(this.state.userData);
           }
           if (this.state.userData.name != null)
             break;
@@ -275,8 +270,8 @@ class Home extends Component {
             <Text style={styles.btnTxt}>Food to Explore</Text>
           </TouchableOpacity>
         </View>
-        <TouchableOpacity style={styles.signButton} activeOpacity={0.5}>
-          <Text style={styles.btnTxt}>Hotels</Text>
+        <TouchableOpacity style={styles.signButton} onPress={() => this.props.navigation.navigate("add")} activeOpacity={0.5}>
+          <Text style={styles.btnTxt}>Add Food</Text>
         </TouchableOpacity>
         <View>
           <Text style={styles.Text}>Other Sevices</Text>

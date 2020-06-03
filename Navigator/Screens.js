@@ -16,6 +16,7 @@ import hospital from '../screens/hospital';
 import carRepair from '../screens/carRepair';
 import atm from '../screens/atm';
 import food from '../screens/Food';
+import add from '../screens/addFood';
 
 
 
@@ -88,6 +89,12 @@ const ScreenContainer =  createDrawerNavigator ({
    },
    food:{
       screen:food,
+      navigationOptions:{
+         drawerLabel: () => null,
+         }
+   },
+   add:{
+      screen:add,
       navigationOptions:{
          drawerLabel: () => null,
          }

@@ -63,7 +63,7 @@ this.setState({
      }
     render(){
         return(
-<View>
+<View style={{backgroundColor:"#f5f5f5"}}>
     <Text style={styles.Text}>Nearby Restaurants</Text>
     <FlatList style={styles.flat}
 data={this.state.restaurant}
@@ -76,10 +76,6 @@ renderItem={this.renderItem}/>
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        flexDirection:'row',
-        marginBottom:3,
-       // alignItems: 'center',
-        //justifyContent: 'center'
     },
     Text: {
         fontFamily: 'Montserrat-Bold',
@@ -91,8 +87,7 @@ const styles = StyleSheet.create({
         marginTop: 40,
     },
     flat:{
-        marginBottom:3,
-        borderRadius:20
+        marginHorizontal:15,
     },
     items:{
         color: '#314256',
@@ -103,14 +98,10 @@ const styles = StyleSheet.create({
 
     },
     button:{
-        marginLeft:5,
-        marginRight:20,
-        borderRadius:20,
-        borderBottomWidth: 2,
-        borderTopWidth:2,
-        borderLeftWidth:2,
-        borderRightWidth:2,
-        //borderStyle:2
-        width:'98%'
+        backgroundColor:"#fff",
+        flexDirection:'row',
+        borderRadius:10,
+        padding:8,
+        marginVertical:8,
     }
 });
