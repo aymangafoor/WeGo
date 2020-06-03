@@ -10,7 +10,7 @@ import {
 } from "react-native"
 export default class addFood extends Component {
     addFoodItem = () => {
-        fetch('https://wego-275411.firebaseio.com/Foods/Alappuzha.json', {
+        fetch('https://wego-275411.firebaseio.com/Foods/Ernakulam.json', {
             method: 'POST',
             body: JSON.stringify({
                 name: this.state.name,
@@ -21,18 +21,27 @@ export default class addFood extends Component {
         })
             .then(res => console.log(res))
             .catch(err => console.log(err));
+        this.setState({
+            name: '',
+            hotel: '',
+            vicinity: '',
+            uri: ''
+        })
     }
-    state = {
-        name: null,
-        hotel: null,
-        vicinity: null,
-        uri: null
+    constructor() {
+        super()
+        this.state = {
+            name: null,
+            hotel: null,
+            vicinity: null,
+            uri: null
 
+        }
     }
     render() {
 
         return (
-            <View style={{marginTop:50,alignItems:"center"}}>
+            <View style={{ marginTop: 50, alignItems: "center" }}>
                 <TextInput
                     style={styles.input}
                     placeholderTextColor={'#86898E'}
@@ -89,12 +98,12 @@ const styles = StyleSheet.create({
         borderRadius: 30,
         width: 138,
         height: 52,
-      },
-      signButton: {
+    },
+    signButton: {
         alignSelf: 'center',
         marginTop: 47,
         marginLeft: 0,
         marginRight: 0,
         marginBottom: 0,
-      },
+    },
 });
