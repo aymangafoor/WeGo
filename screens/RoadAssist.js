@@ -17,16 +17,21 @@ import {
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
-import { createNoSubstitutionTemplateLiteral } from "typescript";
-import { NavigationEvents } from 'react-navigation'
-import { Content } from "native-base";
-//import { ScrollView } from "react-native-gesture-handler";
 //const origin = {latitude:this.state.lat , longitude: this.state.lng};
 //const destination = {latitude: 11.120298, longitude: 76.119965};
+import Geolocation from '@react-native-community/geolocation';
 const GOOGLE_MAPS_APIKEY = 'AIzaSyChiwupcs4om20XFLC7iylVTO5Ef6OTH90';
 export default class RoadAssist extends Component {
   constructor(props) {
     super(props)
+    Geolocation.watchPosition(
+      info => {
+        console.log(info);
+        this.setState({
+          lat: info.coords.latitude,
+          lng: info.coords.longitude,
+        })
+      });
     this.state = {
       search: '',
       dist: null,
@@ -36,22 +41,15 @@ export default class RoadAssist extends Component {
       longate: null,
       latserv: null,
       lngserv: null,
+      lat: null,
+      lng: null,
     }
-  }
-  state = {
-    lat: null,
-    lng: null,
-    dist: null,
-    time: null,
-
   }
  UNSAFE_componentWillMount() {
     this.props.navigation.addListener(
       'willFocus',
       () => {
         this.setState({
-          lat: this.props.navigation.getParam('lat', []),
-          lng: this.props.navigation.getParam('lng', []),
           locate: this.props.navigation.getParam('latserv', []),
           longate: this.props.navigation.getParam('lngserv', [])
         })
@@ -60,11 +58,10 @@ export default class RoadAssist extends Component {
   }
   
   render() {
-    var dist = null;
-    var time = null;
     if (!this.state.lat) return (
       <View>
-        <ActivityIndicator size="large"/>
+        <ActivityIndicator size="large">
+          </ActivityIndicator>
       </View>
     );
 
@@ -127,10 +124,11 @@ export default class RoadAssist extends Component {
           }}
           onPress={(data, details = null) => {
             // 'details' is provided when fetchDetails = true
-            console.log(data, details);
+            console.log(geometry);
             this.setState({
               search:data.description
             })
+   console.log(this.state.search);
    
           }}
           query={{
@@ -172,9 +170,9 @@ export default class RoadAssist extends Component {
               })
             }}
             onError={(errorMessage) => {
-              console.log('GOT AN ERROR');
+              console.log(errorMessage);
             }} />)}
-          {this.state.locate != null && (
+          {this.state.locate != null&& this.state.locate != null && (
             <MapViewDirections
               origin={{ latitude: this.state.lat, longitude: this.state.lng }}
               destination={{ latitude: this.state.locate, longitude: this.state.longate }}
@@ -197,7 +195,7 @@ export default class RoadAssist extends Component {
                 })})
               }}
               onError={(errorMessage) => {
-                console.log('GOT AN ERROR');
+                console.log(errorMessage);
               }} />)}
         </MapView>
         <View style={{ flexDirection: 'row', marginLeft: 1, flex: 1, marginRight: 1, alignSelf: 'center', marginTop: 655,flex:1,position:'absolute'}}>

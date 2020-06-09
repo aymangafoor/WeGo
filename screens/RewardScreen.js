@@ -9,13 +9,35 @@ import {
   ScrollView,
   Image,
   FlatList,
+  Alert,
 } from "react-native";
+import RNFetchBlob from 'rn-fetch-blob';
 import ImagePicker from 'react-native-image-crop-picker';
 import firebase, { auth } from "firebase";
 import config from '../config/firebase';
 import { Item } from "native-base";
-import { isConstructorDeclaration } from "typescript";
-//this.props.navigation.navigate('Home', {data:this.state.image})
+const Blob = RNFetchBlob.polyfill.Blob;
+const fs = RNFetchBlob.fs;
+window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest;
+window.Blob = Blob;
+const Fetch = RNFetchBlob.polyfill.Fetch
+// replace built-in fetch
+window.fetch = new Fetch({
+// enable this option so that the response data conversion handled automatically
+auto : true,
+// when receiving response data, the module will match its Content-Type header
+// with strings in this array. If it contains any one of string in this array, 
+// the response body will be considered as binary data and the data will be stored
+// in file system instead of in memory.
+// By default, it only store response data to file system when Content-Type 
+// contains string `application/octet`.
+binaryContentTypes : [
+    'image/',
+    'video/',
+    'audio/',
+    'foo/',
+]
+}).build()
 class RewardScreen extends Component {
 
   constructor(props) {
@@ -24,7 +46,9 @@ class RewardScreen extends Component {
     this.state = {
       image: '',
       keyid: 'abcde',
-      name: null
+      name: null,
+      img: [],
+      blob: []
     }
   }
   goToPickImage = () => {
@@ -35,8 +59,15 @@ class RewardScreen extends Component {
       cropperCircleOverlay: true,
     }).then(image => {
       console.log(image);
-      this.setState({ image: image.path })
-      this.setimage();
+      this.setState({
+        image: image.path,
+        img: image
+      },
+        () => {
+          this.getblob(),
+          this.setimage()
+        });
+
     });
   }
   getname = async () => {
@@ -55,6 +86,52 @@ class RewardScreen extends Component {
 
     }
   }
+  getblob = () => {
+    var image = this.state.image;
+    fs.readFile(image, 'base64')
+      .then((data) => {
+        return Blob.build(data, { type: `image/jpeg;BASE64` })
+      })
+      .then((Blob) => {
+        this.setState({
+          blob: Blob,
+        }, () => this.storeData())
+      })
+  }
+  storeData = () => {
+    var blob = this.state.blob;
+    var location = firebase.storage().ref(`Foods/Suggest/`).put(blob);
+    location.on(
+      "state_changed",
+      snapshot => {
+        var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log('Upload is ' + progress + '% done');
+        switch (snapshot.state) {
+          case firebase.storage.TaskState.PAUSED: // or 'paused'
+            console.log('Upload is paused');
+            break;
+          case firebase.storage.TaskState.RUNNING: // or 'running'
+            console.log('Upload is running');
+            break;
+          case firebase.storage.TaskState.SUCCESS:
+            console.log('Success');
+            break;
+        }
+        if(progress==100){
+          Alert.alert("Upload Successfull")
+        }
+      },
+      error => { console.log(error) },
+      () => {
+        firebase.storage().ref("Foods")
+          .child('Suggest')
+          .getDownloadURL()
+          .then(url => {
+            console.log(url)
+          });
+      }
+    );
+  };
   render() {
     this.getname();
 

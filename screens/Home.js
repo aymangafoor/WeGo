@@ -38,16 +38,6 @@ class Home extends Component {
     userData: [],
     emailid: firebase.auth().currentUser.email,
   }
-  UNSAFE_componentWillMount() {
-    //let image =this.props.navigation.getParam('image',[])
-    this.props.navigation.addListener(
-      'willFocus',
-      () => {
-        this.setState({
-          image: this.props.navigation.getParam('image', [])
-        })
-      })
-  }
   getData() {
     // const $ = require('react-native-cheerio');
     Geocoder.init("AIzaSyChiwupcs4om20XFLC7iylVTO5Ef6OTH90", { language: "en" });
@@ -263,7 +253,7 @@ class Home extends Component {
         <Text style={styles.Text}>Nearby Services</Text>
         <Text></Text>
         <View style={{ flexDirection: "row" }}>
-          <TouchableOpacity style={styles.signButton} onPress={() => this.props.navigation.navigate("Near_Place", { data: this.state.places })} activeOpacity={0.5}>
+          <TouchableOpacity style={styles.signButton} onPress={() => this.props.navigation.navigate("places", { data: this.state.places })} activeOpacity={0.5}>
             <Text style={styles.btnTxt}> Places </Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.signButton} onPress={() => this.props.navigation.navigate("food")} activeOpacity={0.5}>
@@ -280,20 +270,13 @@ class Home extends Component {
           <TouchableOpacity style={styles.signButton} onPress={() => this.props.navigation.navigate("Assist", { lat: this.state.lat, lng: this.state.lng })} activeOpacity={0.5}>
             <Text style={styles.btnTxt} > Road Assistance </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.signButton} activeOpacity={0.5} >
+          <TouchableOpacity style={styles.signButton} activeOpacity={0.5} onPress={()=> this.props.navigation.navigate("rent")}>
             <Text style={styles.btnTxt}>Rental</Text>
           </TouchableOpacity>
         </View>
-        <View style={{ alignItems: "center" }}>
-          <Text style={styles.texttap}>Tap on any services or search destinations</Text>
-          <TextInput
-            placeholderTextColor={'#797C80'}
-            placeholder={'Search destinations'}
-            style={styles.emailField}
-          />
+        <View style={styles.bottom}>
+          <Text style={styles.footerTxt}>WeGo</Text>
         </View>
-
-        <Text style={styles.footerTxt}>WeGo</Text>
       </SafeAreaView>
     );
 
@@ -405,10 +388,13 @@ const styles = StyleSheet.create({
     fontSize: 20,
     alignSelf: 'center',
     color: '#314256',
-    marginTop: 90,
-    marginBottom: 16,
     marginRight: 0,
     marginLeft: 0,
+  },
+  bottom: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    marginBottom: 36
   },
   Text: {
     fontFamily: 'Montserrat-Bold',
@@ -427,7 +413,6 @@ const styles = StyleSheet.create({
     color: '#314256',
     marginHorizontal: 0,
     marginTop: 60,
-  }
-
+  },
 
 });

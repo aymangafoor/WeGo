@@ -3,7 +3,6 @@
  */
 
 import {AppRegistry} from 'react-native';
-export const RewardScreen =({navigation}) => <Home navigation={navigation} name="Reward" />
 import {createDrawerNavigator} from 'react-navigation';
 import SignUpScreen from './screens/SignUpScreen';
 import LoginScreen from './screens/LoginScreen';

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component ,} from "react";
 import {
     View,
     Picker,
@@ -57,7 +57,7 @@ class Food extends Component {
         //console.log(this.state.Foods)
         return (
             <View style={{ backgroundColor: "#f5f5f5", flex: 1 }}>
-                <View style={{ flexDirection: 'row', }}>
+                <View style={{ flexDirection: 'row',marginTop:10 }}>
                     <Text style={styles.mainTitle}> Popular Cuisine in </Text>
                     <Picker onValueChange={this.getlink}
                         style={styles.picker}

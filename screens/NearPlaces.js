@@ -34,7 +34,7 @@ class NearPlace extends Component {
     this.setState({
         data:arr
     })
-    console.log("sdsdsds",arr[0].image_url)
+    //console.log("sdsdsds",arr[0].image_url)
     
   }
 

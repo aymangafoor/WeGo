@@ -17,7 +17,9 @@ import carRepair from '../screens/carRepair';
 import atm from '../screens/atm';
 import food from '../screens/Food';
 import add from '../screens/addFood';
-
+import rent from '../screens/Rental';
+import places from '../screens/places';
+import rental from '../screens/carRental';
 
 
 const ScreenContainer =  createDrawerNavigator ({
@@ -95,6 +97,24 @@ const ScreenContainer =  createDrawerNavigator ({
    },
    add:{
       screen:add,
+      navigationOptions:{
+         drawerLabel: () => null,
+         }
+   },
+   rent:{
+      screen:rent,
+      navigationOptions:{
+         drawerLabel: () => null,
+         }
+   },
+   rental:{
+      screen:rental,
+      navigationOptions:{
+         drawerLabel: () => null,
+         }
+   },
+   places:{
+      screen:places,
       navigationOptions:{
          drawerLabel: () => null,
          }
