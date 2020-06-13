@@ -7,6 +7,7 @@ import {
   TextInput,
   TouchableOpacity,
   Alert,
+  KeyboardAvoidingView
 } from 'react-native';
 
 import firebase, { auth } from "firebase";
@@ -14,15 +15,10 @@ import firestore from "firebase/firestore"
 import config from '../config/firebase';
 export default class SignUpScreen extends React.Component {
   registerUser = () => {
-    fetch('https://wego-275411.firebaseio.com/users.json', {
-      method: 'POST',
-      body: JSON.stringify({
-        name: this.state.name,
-        email: this.state.email
-      })
-    })
-      .then(res => console.log(res))
-      .catch(err => console.log(err));
+    firebase.database().ref('users').push().set({
+      email: this.state.email,
+      point:10
+  })
   }
   state = {
     email: null,
@@ -42,6 +38,7 @@ export default class SignUpScreen extends React.Component {
         (this.state.email, this.state.password).
         catch((error) => Alert.alert(error.toString(error)))
         .then((user) => {
+          user.user.updateProfile({ displayName: this.state.name })
           console.log(user);
           if (user) {
             Alert.alert("Account Created");
@@ -54,61 +51,48 @@ export default class SignUpScreen extends React.Component {
     } catch (error) {
       console.log(error.toString(error));
     }
-
-
-
-
   }
   render() {
     return (
-      <View style={styles.container}>
+      <KeyboardAvoidingView behavior='height' contentContainerStyle={{flex:1}} style={styles.container}>
         <StatusBar translucent backgroundColor="transparent" />
         <Text style={styles.textProp}>Sign up</Text>
-        <View>
+        <View style={{ marginVertical: 20 }}>
           <TextInput
             placeholderTextColor={'#86898E'}
             placeholder={'Name'}
             style={styles.emailField}
             onChangeText={(name) => { this.setState({ name }) }}
           />
-          <View>
-            <TextInput
-              placeholderTextColor={'#86898E'}
-              placeholder={'Email'}
-              style={styles.emailField}
-              onChangeText={(email) => { this.setState({ email }) }}
-            />
-            <View>
-              <TextInput
-                secureTextEntry={true}
-                style={styles.default}
-                placeholderTextColor={'#86898E'}
-                placeholder={'Password'}
-                style={styles.pwdField}
-                onChangeText={(password) => { this.setState({ password }) }}
-              />
-              <View>
-                <TouchableOpacity
-                  style={styles.signButton}
-                  activeOpacity={0.5}
-                  onPress={this.Signup}>
-                  <Text style={styles.btnTxt}> Sign up </Text>
-                </TouchableOpacity>
-                <View>
-                  <Text style={styles.bodyTxt}>Already a member? </Text>
-                  <TouchableOpacity
-                    onPress={() => this.props.navigation.navigate('Login')}>
-                    <Text style={styles.signInTxt}>Sign in </Text>
-                  </TouchableOpacity>
-                </View>
-                <View>
-                  <Text style={styles.footerTxt}>WeGo</Text>
-                </View>
-              </View>
-            </View>
-          </View>
+          <TextInput
+            placeholderTextColor={'#86898E'}
+            placeholder={'Email'}
+            style={styles.emailField}
+            onChangeText={(email) => { this.setState({ email }) }}
+          />
+          <TextInput
+            secureTextEntry={true}
+            placeholderTextColor={'#86898E'}
+            placeholder={'Password'}
+            style={styles.pwdField}
+            onChangeText={(password) => { this.setState({ password }) }}
+          />
+          <TouchableOpacity
+            style={styles.signButton}
+            activeOpacity={0.5}
+            onPress={this.Signup}>
+            <Text style={styles.btnTxt}> Sign up </Text>
+          </TouchableOpacity>
+          <Text style={styles.bodyTxt}>Already a member? </Text>
+          <TouchableOpacity
+            onPress={() => this.props.navigation.navigate('Login')}>
+            <Text style={styles.signInTxt}>Sign in </Text>
+          </TouchableOpacity>
         </View>
-      </View>
+        <View>
+          <Text style={styles.footerTxt}>WeGo</Text>
+        </View>
+      </KeyboardAvoidingView>
     );
   }
 }
@@ -124,7 +108,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Montserrat-Bold',
     fontSize: 38,
     color: '#314256',
-    marginTop: 32,
+    marginTop: 80,
     marginBottom: 0,
     marginRight: 0,
     marginLeft: 37,
@@ -139,8 +123,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#E1E6EC',
     borderRadius: 30,
     paddingLeft: 22,
-    marginTop: 98,
-    marginBottom: 0,
+    marginBottom: 10,
     marginLeft: 0,
     marginRight: 0,
   },
@@ -153,7 +136,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#E1E6EC',
     borderRadius: 30,
     paddingLeft: 22,
-    marginTop: 36,
     marginBottom: 0,
     marginLeft: 0,
     marginRight: 0,

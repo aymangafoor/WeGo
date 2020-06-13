@@ -15,6 +15,7 @@ import {
   Alert,
   YellowBox
 } from "react-native";
+
 // import cio from 'cheerio-without-node-native';
 import firebase, { auth } from "firebase";
 import config from '../config/firebase';
@@ -23,6 +24,7 @@ import Login from "./LoginScreen";
 import Assist from "./RoadAssist";
 import Geolocation from '@react-native-community/geolocation';
 import Geocoder from 'react-native-geocoding';
+console.disableYellowBox = true;
 class Home extends Component {
   state = {
     lat: null,
@@ -34,7 +36,7 @@ class Home extends Component {
     htmlcode: null,
     places: [],
     responseCode: null,
-    name: null,
+    name: firebase.auth().currentUser.displayName,
     userData: [],
     emailid: firebase.auth().currentUser.email,
   }
@@ -179,21 +181,28 @@ class Home extends Component {
     })
   }
   constructor() {
-    YellowBox.ignoreWarnings(['Require cycle', 'Setting a timer','source.uri']);
+    YellowBox.ignoreWarnings(['Require cycle', 'Setting a timer', 'source.uri', '[TypeError:', 'MapViewDirections Error', 'Failed']);
     super()
 
-    Geolocation.watchPosition(
+    Geolocation.getCurrentPosition(
       info => {
         this.setState({
           lat: info.coords.latitude,
           lng: info.coords.longitude,
         })
         this.getData()
-      });
+      },
+      (error)=>{
+        console.log(error);       
+      },
+      {enableHighAccuracy:false,distanceFilter:2000}
+      );
   }
-  setname = async () => {
+  setpoint = async () => {
+    var no = this.state.userData.point
+    var point = no.toString()
     try {
-      await AsyncStorage.setItem('name', this.state.userData.name)
+      await AsyncStorage.setItem('point', point)
     } catch (error) {
       console.log(error);
 
@@ -207,14 +216,15 @@ class Home extends Component {
         for (const key in usernm) {
           const st1 = usernm[key].email
           const st2 = st1.toLowerCase();
-          console.log(st2, '-', this.state.emailid)
+          //console.log(st2, '-', this.state.emailid)
           if (st2 == this.state.emailid) {
             this.setState({
               userData: usernm[key]
-            })
+            }, () => { this.setpoint(); })
+            if (this.state.userData != [])
+              break;
           }
-          if (this.state.userData.name != null)
-            break;
+
         }
 
       })
@@ -230,7 +240,6 @@ class Home extends Component {
   render() {
     this.getUser();
     this.getimage();
-    this.setname();
     return (
 
       <SafeAreaView style={styles.container}>
@@ -251,7 +260,6 @@ class Home extends Component {
         </View>
 
         <Text style={styles.Text}>Nearby Services</Text>
-        <Text></Text>
         <View style={{ flexDirection: "row" }}>
           <TouchableOpacity style={styles.signButton} onPress={() => this.props.navigation.navigate("places", { data: this.state.places })} activeOpacity={0.5}>
             <Text style={styles.btnTxt}> Places </Text>
@@ -270,7 +278,7 @@ class Home extends Component {
           <TouchableOpacity style={styles.signButton} onPress={() => this.props.navigation.navigate("Assist", { lat: this.state.lat, lng: this.state.lng })} activeOpacity={0.5}>
             <Text style={styles.btnTxt} > Road Assistance </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.signButton} activeOpacity={0.5} onPress={()=> this.props.navigation.navigate("rent")}>
+          <TouchableOpacity style={styles.signButton} activeOpacity={0.5} onPress={() => this.props.navigation.navigate("rent")}>
             <Text style={styles.btnTxt}>Rental</Text>
           </TouchableOpacity>
         </View>

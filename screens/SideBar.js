@@ -8,16 +8,17 @@ class SideBar extends Component {
     constructor() {
         super()
         this.state = {
-            name: null,
-            image: ''
+            name: firebase.auth().currentUser.displayName,
+            image: '',
+            point: null
         }
     }
     getname = async () => {
         try {
-            this.state.name = await AsyncStorage.getItem('name');
-            this.state.image = await AsyncStorage.getItem('image')
+            this.state.image = await AsyncStorage.getItem('image');
+            this.state.point = await AsyncStorage.getItem('point');
             if (this.state.name !== null) {
-                console.log(this.state.name)
+                console.log(this.state.point)
             }
         } catch (error) {
             console.log(error);
@@ -39,7 +40,7 @@ class SideBar extends Component {
                             source={require('./images/coin.png')}
                             title="50wc"
                             style={{ width: 24, height: 24, alignSelf: "center", marginVertical: 0 }} />
-                        <Text style={{ alignSelf: "center" }}>50wc</Text>
+                        <Text>{this.state.point} wc</Text>
                     </View>
                     <DrawerNavigatorItems {...props} />
                 </View>

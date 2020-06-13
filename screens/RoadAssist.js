@@ -23,15 +23,19 @@ import Geolocation from '@react-native-community/geolocation';
 const GOOGLE_MAPS_APIKEY = 'AIzaSyChiwupcs4om20XFLC7iylVTO5Ef6OTH90';
 export default class RoadAssist extends Component {
   constructor(props) {
-    super(props)
     Geolocation.watchPosition(
-      info => {
-        console.log(info);
+      (info)=>{
         this.setState({
-          lat: info.coords.latitude,
-          lng: info.coords.longitude,
-        })
-      });
+          lat:info.coords.latitude,
+          lng:info.coords.longitude
+        });
+      },
+      (error)=>{
+        console.log(error);       
+      },
+      {enableHighAccuracy:false,timeout:0,maximumAge:0,distanceFilter:1}
+    )
+    super(props)
     this.state = {
       search: '',
       dist: null,
@@ -56,16 +60,13 @@ export default class RoadAssist extends Component {
       }
     )
   }
-  
+  componentDidMount=()=>{
+    
+  }
   render() {
-    if (!this.state.lat) return (
-      <View>
-        <ActivityIndicator size="large">
-          </ActivityIndicator>
-      </View>
-    );
-
-    else return (
+    var lat=this.state.lat
+    var lng=this.state.lng
+   return (
       <KeyboardAvoidingView
       style={{flex:1}}
       behaviour='height'
@@ -139,13 +140,13 @@ export default class RoadAssist extends Component {
       
         />
         
-        <MapView
+        {lat!=null&&<MapView
           showsUserLocation
           provider={PROVIDER_GOOGLE}
           style={styles.map}
           initialRegion={{
-            latitude: this.state.lat,
-            longitude: this.state.lng,
+            latitude: lat,
+            longitude: lng,
             latitudeDelta: 0.09,
             longitudeDelta: 0.035
           }}>
@@ -186,18 +187,22 @@ export default class RoadAssist extends Component {
               onReady={result => {
                 console.log(`Distance: ${result.distance} km`),
                   console.log(`Duration: ${result.duration} min.`)
-                  this.props.navigation.addListener(
-                    'willFocus',
-                    () => {
-                this.setState({
+                  this.setState({
                   dist: result.distance,
                   time: result.duration
-                })})
+                })
               }}
               onError={(errorMessage) => {
                 console.log(errorMessage);
               }} />)}
-        </MapView>
+        </MapView>}
+        {lat==null&&<View
+        // showsUserLocation
+        // provider={PROVIDER_GOOGLE}
+        style={styles.unmap}>
+          <ActivityIndicator size="large" color="#0000ff"></ActivityIndicator>
+          <Text style={styles.loading}>Loading....Map....</Text>
+          </View>}
         <View style={{ flexDirection: 'row', marginLeft: 1, flex: 1, marginRight: 1, alignSelf: 'center', marginTop: 655,flex:1,position:'absolute'}}>
           <TouchableOpacity style={styles.serviceicon} onPress={() => this.props.navigation.navigate("gas", { lat: this.state.lat, lng: this.state.lng })} activeOpacity={0.5}>
             <Image
@@ -249,6 +254,14 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     position:'relative'
   },
+  unmap: {
+    height: '83%',
+    marginTop:55,
+    marginBottom: 5,
+    position:'relative',
+    backgroundColor:'white',
+    alignItems:'center'
+  },
   serviceicon:{
     flexDirection: "row",
     backgroundColor: 'grey',
@@ -278,5 +291,11 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     alignSelf: 'center',
   },
-
+  loading:{
+    alignSelf:'center',
+    justifyContent:"center",
+    fontFamily: 'Montserrat-Bold',
+    fontSize:15,
+    color: '#314256'
+  }
 });

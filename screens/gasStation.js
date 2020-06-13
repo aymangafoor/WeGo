@@ -66,7 +66,7 @@ this.setState({
      }
     render(){
         return(
-<View>
+<View style={{backgroundColor:"#f5f5f5"}}>
     <Text style={styles.Text}>Nearby Gase Stations</Text>
     <FlatList style={styles.flat}
 data={this.state.gasedata}

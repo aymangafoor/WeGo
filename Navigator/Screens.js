@@ -20,6 +20,7 @@ import add from '../screens/addFood';
 import rent from '../screens/Rental';
 import places from '../screens/places';
 import rental from '../screens/carRental';
+import details from '../screens/placeDetails';
 
 
 const ScreenContainer =  createDrawerNavigator ({
@@ -115,6 +116,12 @@ const ScreenContainer =  createDrawerNavigator ({
    },
    places:{
       screen:places,
+      navigationOptions:{
+         drawerLabel: () => null,
+         }
+   },
+   details:{
+      screen:details,
       navigationOptions:{
          drawerLabel: () => null,
          }
