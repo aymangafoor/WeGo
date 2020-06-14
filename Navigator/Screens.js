@@ -26,6 +26,7 @@ import rent from '../screens/Rental';
 import places from '../screens/places';
 import rental from '../screens/carRental';
 import details from '../screens/placeDetails';
+import hotel from '../screens/hotel';
 
 
 const ScreenContainer = createDrawerNavigator({
@@ -141,8 +142,15 @@ const ScreenContainer = createDrawerNavigator({
       navigationOptions: {
          drawerLabel: () => null,
       }
-   }
-}, {
+   },
+   hotel: {
+      screen: hotel,
+      navigationOptions: {
+         drawerLabel: () => null,
+      }
+   },
+},
+ {
    contentComponent: props => <SideBar{...props} />,
    drawerWidth: Dimensions.get("window").width * 0.7,
    hideStatusBar: true,

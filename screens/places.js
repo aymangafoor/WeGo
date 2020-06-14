@@ -41,6 +41,7 @@ class places extends Component {
   renderItem = ({ item }) => {
     if (item.photos) { var images = item.photos[0].photo_reference; }
     // console.log(item.photos[0].photo_reference);
+    if(item.rating)
     return (
       <View style={styles.container}>
         <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate('details', { name: item.name, photo: images })} >

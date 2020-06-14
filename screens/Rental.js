@@ -26,10 +26,12 @@ class Rental extends Component{
     renderItem = ({ item }) => {
         return (
             <View style={styles.container}>
-                {/* <View></View> */}
+                <View
+            style={{ flex: 2 }}>
                 <Image
-                    style={{ width: 100, height: 100, marginRight: 5, marginVertical: 0, borderTopLeftRadius: 10, borderBottomLeftRadius: 10 }}
+                    style={{ width: null, height: 100, resizeMode:'cover', marginVertical: 0, borderTopLeftRadius: 10, borderTopRightRadius: 10,flex:2 }}
                     source={{ uri: item.image }} />
+                    </View>
                 <View style={{ flexDirection: 'column', height: "100%", flex: 1 }}>
                     <Text numberOfLines={2} ellipsizeMode="tail" style={styles.title}>{item.name}</Text>
                     <Text style={styles.items}>{item.prize}</Text>
@@ -42,9 +44,15 @@ class Rental extends Component{
     render(){
         return(
             <View style={{ backgroundColor: "#f5f5f5", flex: 1 }}>
-                 <TouchableOpacity style={styles.signButton} activeOpacity={0.5} onPress={()=> this.props.navigation.navigate("rental")}>
-            <Text style={styles.btnTxt}>NearbyCarRental</Text>
+                <Text style={styles.Text}>Nearby:</Text>
+                <View style={{flexDirection:"row",alignItems:'center',justifyContent:"center"}}>              
+                <TouchableOpacity style={styles.signButton} activeOpacity={0.5} onPress={()=> this.props.navigation.navigate("rental")}>
+            <Text style={styles.btnTxt}>Car Rentals</Text>
           </TouchableOpacity>
+          <TouchableOpacity style={styles.signButton} activeOpacity={0.5} onPress={()=> this.props.navigation.navigate("hotel")}>
+        <Text style={styles.btnTxt}>Lodges {'&'} Inn</Text>
+          </TouchableOpacity>
+          </View>  
                 <Text style={styles.Text}>For Rent</Text>
                 <FlatList style={styles.flat}
                     data={this.state.Rents}
@@ -61,11 +69,11 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: "#fff",
         borderRadius: 10,
-        padding: 5,
         marginVertical: 8,
         marginHorizontal:5,
         flex:0.5,
-        alignContent:'space-between'
+        alignContent:'space-between',
+        elevation: 6,
     },
     flat: {
         marginHorizontal: 15

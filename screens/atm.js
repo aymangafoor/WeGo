@@ -36,7 +36,7 @@ this.setState({
             style={{width:15,height:15,marginTop:10,marginLeft:5}}
             source={{uri:item.icon}}/>
             <View>
-            <Text style={styles.items}>{item.name}</Text>
+            <Text style={styles.mainitems}>{item.name}</Text>
         <Text style={styles.items}>{item.vicinity}</Text>
        {item.opening_hours? <Text style={styles.items}>open</Text>:<Text style={styles.items}>closed</Text>}
         <Text style={styles.items}>Rating:{item.rating}</Text>
@@ -88,11 +88,15 @@ const styles = StyleSheet.create({
     },
     items:{
         color: '#314256',
+        fontFamily: 'Montserrat-Regular',
+        marginBottom:5,
+        marginLeft:5
+    },
+    mainitems:{
+        color: '#314256',
         fontFamily: 'Montserrat-Bold',
         marginBottom:5,
         marginLeft:5
-
-
     },
     button:{
         backgroundColor:"#fff",

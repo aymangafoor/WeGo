@@ -1,40 +1,46 @@
-import React, { Component } from "react";
-import { 
+import React, { Component ,} from "react";
+import {
     View,
-    Text,
-    StyleSheet,
-    Button,
     TouchableOpacity,
-    TextInput,
-    ScrollView,
-    Image,
+    Text,
     FlatList,
-} from "react-native";
-class hospital extends Component{
+    StyleSheet,
+    Image,
+} from "react-native"
+import firebase, { auth } from "firebase";
+import config from '../config/firebase';
+import Geolocation from '@react-native-community/geolocation';
+class hotel extends Component{
+    state={
+        hotel:[]
+    }
     constructor(){
         super()
+        Geolocation.getCurrentPosition(
+            info => {
+                console.log(info);
+              this.setState({
+                lat: info.coords.latitude,
+                lng: info.coords.longitude,
+              },() => this.getrent())
+        })
         this.state = {
             lat:null,
-            lng:null,
-            hospital: []
+            lng:null
             
         }
     }
-    UNSAFE_componentWillMount(){
-        let lat =this.props.navigation.getParam('lat',[])
-        let lng =this.props.navigation.getParam('lng',[])
-this.setState({
-        lat,
-        lng,
-    })
-    }
     renderItem = ({item})=> {
+        if (item.photos) { var images = item.photos[0].photo_reference; }
+        if(item.rating)
         return(
             <View style={styles.container}>
                <TouchableOpacity style={styles.button}  onPress={()=>this.props.navigation.navigate('Assist',{latserv:item.geometry.location.lat, lngserv:item.geometry.location.lng})}>
-            <Image
-            style={{width:15,height:15,marginTop:10,marginLeft:5}}
-            source={{uri:item.icon}}/>
+            
+            {images != null && <Image
+              style={{ width: 100, height: null, marginRight: 5, marginVertical: 0, borderTopLeftRadius: 10, borderBottomLeftRadius: 10 }}
+              source={{ uri: `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&maxheight=400&photoreference=${images}&key=AIzaSyChiwupcs4om20XFLC7iylVTO5Ef6OTH90` }} />
+            }
             <View>
             <Text style={styles.mainitems}>{item.name}</Text>
         <Text style={styles.items}>{item.vicinity}</Text>
@@ -44,17 +50,19 @@ this.setState({
             </TouchableOpacity>
         </View>   
         )
-        
     }
-    componentDidMount = () => {
-        fetch('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location='+this.state.lat+','+this.state.lng+'&radius=5000&type=hospital&key=AIzaSyChiwupcs4om20XFLC7iylVTO5Ef6OTH90', {
+    getrent = () => {
+        var lat=this.state.lat;
+        var lng=this.state.lng
+        console.log(lat,lng);
+        fetch(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lng}&radius=10000&type=lodging&key=AIzaSyChiwupcs4om20XFLC7iylVTO5Ef6OTH90`, {
            method: 'GET'
         })
         .then((response) => response.json())
         .then((responseJson) => {
            console.log(responseJson.results[1]);
            this.setState({
-              hospital: responseJson.results
+              hotel: responseJson.results
            })
         })
         .catch((error) => {
@@ -63,16 +71,15 @@ this.setState({
      }
     render(){
         return(
-<View>
-    <Text style={styles.Text}>Nearby Hospitals</Text>
+<View style={{backgroundColor:"#f5f5f5"}}>
+    <Text style={styles.Text}>Nearby Lodging {'&'} Inn</Text>
     <FlatList style={styles.flat}
-data={this.state.hospital}
+data={this.state.hotel}
 renderItem={this.renderItem}/>
 </View>
         );
     }
-}export default hospital;
-
+}export default hotel;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -85,6 +92,9 @@ const styles = StyleSheet.create({
         color: '#314256',
         marginHorizontal: 0,
         marginTop: 40,
+    },
+    flat:{
+        marginHorizontal:15,
     },
     items:{
         color: '#314256',
@@ -102,10 +112,6 @@ const styles = StyleSheet.create({
         backgroundColor:"#fff",
         flexDirection:'row',
         borderRadius:10,
-        padding:8,
         marginVertical:8,
-        shadowOpacity: 0.8,
-        elevation: 10,
-        marginHorizontal: 15
     }
 });

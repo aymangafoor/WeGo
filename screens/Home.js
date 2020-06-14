@@ -111,7 +111,7 @@ class Home extends Component {
 
       })
   }
-  componentDidMount=()=>{
+  componentDidMount = () => {
     this.setState({
       name: firebase.auth().currentUser.displayName,
       image: firebase.auth().currentUser.photoURL
@@ -137,29 +137,57 @@ class Home extends Component {
             <Text style={{ color: 'white' }}>{this.state.place}</Text>
           </View>
         </View>
-
         <Text style={styles.Text}>Nearby Services</Text>
-        <View style={{ flexDirection: "row" }}>
-          <TouchableOpacity style={styles.signButton} onPress={() => this.props.navigation.navigate("places", { data: this.state.places })} activeOpacity={0.5}>
-            <Text style={styles.btnTxt}> Places </Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.signButton} onPress={() => this.props.navigation.navigate("food")} activeOpacity={0.5}>
-            <Text style={styles.btnTxt}>Food to Explore</Text>
-          </TouchableOpacity>
+        <View style={{ flexDirection: "row", flex: 1 }}>
+          <View style={styles.Icon}>
+            <TouchableOpacity style={styles.signButton} onPress={() => this.props.navigation.navigate("places", { data: this.state.places })} activeOpacity={0.5}>
+              <Image
+                source={require('./images/Home/Places.png')}
+                style={{ width: 60, height: 60, resizeMode: 'cover',alignSelf:"center" ,justifyContent:'center',marginTop:10,position:'relative' }} />
+              <View>
+                <Text style={styles.btnTxt}> Places </Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.Icon}>
+            <TouchableOpacity style={styles.signButton} onPress={() => this.props.navigation.navigate("food")} activeOpacity={0.5}>
+              <Image
+                source={require('./images/Home/Food.png')}
+                style={{ width: 60, height: 60, resizeMode: 'cover',alignSelf:"center" ,justifyContent:'center',marginTop:10,position:'relative'}} />
+              <Text style={styles.btnTxt}>Cuisines</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-        <TouchableOpacity style={styles.signButton} onPress={() => this.props.navigation.navigate("add")} activeOpacity={0.5}>
-          <Text style={styles.btnTxt}>Add Food</Text>
-        </TouchableOpacity>
+        <View style={styles.Icons}>
+            <TouchableOpacity style={styles.signButton} onPress={() => this.props.navigation.navigate("add")} activeOpacity={0.5}>
+              <Image
+                source={require('./images/Home/SuggestFood.png')}
+                style={{ width: 60, height: 60, resizeMode: 'cover',alignSelf:"center" ,justifyContent:'center',marginTop:10,position:'relative' }} />
+              <Text style={styles.btnTxt}>Add Food</Text>
+            </TouchableOpacity>
+          </View>
         <View>
-          <Text style={styles.Text}>Other Sevices</Text>
+          <Text style={styles.TextOther}>Other Services</Text>
         </View>
         <View style={{ flexDirection: "row" }}>
-          <TouchableOpacity style={styles.signButton} onPress={() => this.props.navigation.navigate("Assist", { lat: this.state.lat, lng: this.state.lng })} activeOpacity={0.5}>
-            <Text style={styles.btnTxt} > Road Assistance </Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.signButton} activeOpacity={0.5} onPress={() => this.props.navigation.navigate("rent")}>
-            <Text style={styles.btnTxt}>Rental</Text>
-          </TouchableOpacity>
+          <View style={styles.Icon}>
+            <TouchableOpacity style={styles.signButton} onPress={() => this.props.navigation.navigate("Assist", { lat: this.state.lat, lng: this.state.lng })} activeOpacity={0.5}>
+              <Image
+                source={require('./images/Home/RoadAssist.png')}
+                style={{ width: 60, height: 60, resizeMode: 'cover',alignSelf:"center" ,justifyContent:'center',marginTop:10,position:'relative' }} />
+              <Text style={styles.btnTxt} > Road Assist </Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.Icon}>
+            <TouchableOpacity style={styles.signButton} activeOpacity={0.5} onPress={() => this.props.navigation.navigate("rent")}>
+              <View style={{ flex: 2 }}>
+                <Image
+                  source={require('./images/Home/Rental.png')}
+                  style={{ width: 60, height: 60, resizeMode: 'cover',alignSelf:"center" ,justifyContent:'center',marginTop:10,position:'relative' }} />
+                <Text style={styles.btnTxt}>Rental</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
         </View>
         <View style={styles.bottom}>
           <Text style={styles.footerTxt}>WeGo</Text>
@@ -179,8 +207,7 @@ export default Home;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // alignItems: 'center',
-    //justifyContent: 'center'
+    backgroundColor: "#f5f5f5"
   },
   SquareShapeView: {
     marginHorizontal: 0,
@@ -190,85 +217,27 @@ const styles = StyleSheet.create({
     borderBottomEndRadius: 20,
     borderBottomStartRadius: 20,
   },
-  textProp: {
-    fontFamily: 'Montserrat-Bold',
-    fontSize: 38,
-    color: '#ffffff',
-    marginTop: 32,
-    marginBottom: 0,
-    marginRight: 0,
-    marginLeft: 37,
-    alignSelf: 'flex-start',
-  },
-  emailField: {
-    fontFamily: 'Montserrat-Light',
-    fontSize: 14,
-    color: '#86898E',
-    width: 330,
-    height: 50,
-    backgroundColor: '#E1E6EC',
-    borderRadius: 30,
-    paddingLeft: 22,
-    marginTop: 10,
-    marginBottom: 10,
-    marginLeft: 0,
-    marginRight: 0,
-  },
-  pwdField: {
-    fontFamily: 'Montserrat-Light',
-    fontSize: 14,
-    color: '#BDC7D4',
-    width: 286,
-    height: 60,
-    backgroundColor: '#314256',
-    borderRadius: 30,
-    paddingLeft: 22,
-    marginTop: 36,
-    marginBottom: 0,
-    marginLeft: 0,
-    marginRight: 0,
-  },
   btnTxt: {
-    fontFamily: 'Montserrat-Bold',
-    fontSize: 14,
+    fontFamily: 'Montserrat-Regular',
+    fontSize: 16,
+    marginTop:20,
     textAlign: 'center',
     color: '#000000',
     backgroundColor: '#BDC7D4',
-    padding: 0,
-    alignContent: 'space-between',
-    marginHorizontal: 5,
-    marginBottom: 0.5,
-    marginTop: 0,
-    paddingTop: 15,
-    paddingBottom: 15,
-    borderRadius: 30,
-    left: 0,
-    bottom: 0,
-    width: 138,
-    height: 52,
+    width: '100%',
+    height:40,
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15,
+    paddingTop:7
   },
   signButton: {
-    // alignSelf: 'center',
-    marginTop: 10,
-    marginLeft: 0,
-    marginRight: 0,
-    marginBottom: 0,
-  },
-  bodyTxt: {
-    fontFamily: 'Montserrat-Regular',
-    fontSize: 14,
-    color: '#ffffff',
-    marginTop: 58,
-    marginBottom: 0,
-    marginRight: 0,
-    marginLeft: 0,
-    alignSelf: 'center',
-  },
-  signUpTxt: {
-    fontFamily: 'Montserrat-Bold',
-    fontSize: 14,
-    color: '#0176FB',
-    alignSelf: 'center',
+    marginLeft: 10,
+    borderRadius: 15,
+    width: 120,
+    height: 120,
+    shadowOpacity: 0.8,
+    backgroundColor: '#FFFFFF',
+    elevation:6
   },
   footerTxt: {
     fontFamily: 'Montserrat-Bold',
@@ -281,25 +250,39 @@ const styles = StyleSheet.create({
   bottom: {
     flex: 1,
     justifyContent: 'flex-end',
-    marginBottom: 36
+    marginBottom: 10
   },
   Text: {
     fontFamily: 'Montserrat-Bold',
-    fontSize: 20,
-    marginLeft: 10,
+    fontSize: 18,
+    paddingLeft: 10,
     marginRight: 0,
     color: '#314256',
     marginHorizontal: 0,
-    marginTop: 40,
+    marginTop: 10,
   },
-  texttap: {
-    fontFamily: 'Montserrat-Regular',
-    fontSize: 16,
-    marginLeft: 0,
+  TextOther: {
+    fontFamily: 'Montserrat-Bold',
+    fontSize: 18,
+    paddingLeft: 10,
     marginRight: 0,
     color: '#314256',
     marginHorizontal: 0,
-    marginTop: 60,
+    marginTop: 10,
   },
-
+  Icon:{
+    flex:1,
+    height:100,
+    width:110,
+    margin:20,
+    borderRadius:15
+  },
+  Icons:{
+    flex:1,
+    height:100,
+    width:100,
+    margin:20,
+    borderRadius:15,
+    marginTop:50
+  }
 });
