@@ -36,7 +36,7 @@ class Home extends Component {
     htmlcode: null,
     places: [],
     responseCode: null,
-    name: firebase.auth().currentUser.displayName,
+    name: null,
     userData: [],
     emailid: firebase.auth().currentUser.email,
   }
@@ -54,7 +54,6 @@ class Home extends Component {
           place: addressComponent.long_name,
           dist: json.results[0]
         })
-        this.loadGraphicCards()
 
       }).catch(error => console.warn(error)
       );
@@ -62,123 +61,6 @@ class Home extends Component {
       alert(error);
     }
 
-  }
-  place_check = () => {
-    if (this.state.responseCode == 404) {
-
-      if (this.state.count == 0) {
-        this.loadGraphicCards(this.state.dist.address_components[3].long_name)
-        this.setState({ count: 1 })
-        return
-      }
-      else if (this.state.count == 1) {
-        this.loadGraphicCards(this.state.dist.address_components[0].long_name)
-        this.setState({ count: 2 })
-        return
-      }
-      else if (this.state.count == 2) {
-        this.loadGraphicCards(this.state.dist.address_components[1].long_name)
-        this.setState({ count: 3 })
-        return
-      }
-      else if (this.state.count == 3) {
-        this.loadGraphicCards(this.state.dist.address_components[4].long_name)
-        this.setState({ count: 4 })
-        return
-      }
-      else if (this.state.dist.address_components[3].short_name) {
-        this.setState({ count: 5 })
-        return
-      }
-    }
-  }
-
-  loadGraphicCards = (dis = this.state.dist.address_components[3].long_name) => {
-    var quizUrl = `https://www.holidify.com/places/${dis}/sightseeing-and-things-to-do.html`;
-
-    console.log(quizUrl)
-    var myHeaders = new Headers();
-    myHeaders.append('Content-Type', 'text/html');
-    var data = fetch(quizUrl, {
-      mode: 'no-cors',
-      method: 'get',
-      headers: myHeaders
-    }).then((response) => {
-      if (response.status == 404) {
-        this.setState({ responseCode: 404 })
-        this.place_check()
-        return
-      } else {
-        this.setState({ responseCode: response.status })
-        console.log("new res", response.status)
-        this.setState({ dist: dis })
-      }
-      response.text()
-        .then(html => {
-          this.setState({
-            htmlcode: html
-          })
-          // console.log(code)
-
-          this.extract()
-
-
-          //  console.log(html)
-        })
-
-    })
-    // console.log("code",this.state.responseCode)
-    // if(this.state.responseCode==404){
-    //   console.log("code",this.state.responseCode)
-    //  }
-
-
-  }
-
-
-  extract = () => {
-    // Alert.alert("ok")
-    //  console.log(this.state.htmlcode)
-
-    const cheerio = require('react-native-cheerio')
-    const $ = cheerio.load(this.state.htmlcode)
-    // console.log($('#attractionList').html())
-    $('#attractionList').html()
-    //  console.log($('div',$('#attractionList').html()).html())
-    //console.log($('div',$('#attractionList').html()).html())
-    //console.log($('.content-card',$('#attractionList'))[0])
-    data = $('div', $('.content-card', $('#attractionList'))).html()
-    // console.log($('div',$('.content-card',$('#attractionList'))))
-
-    // console.log($(data).html())
-    // console.log($('h3',dataurl).text()) //place name
-    // console.log($('img',dataurl).data().original) // image url
-    // console.log($('.card-text',dataurl).text()) // description
-    data = []
-
-    let limit = $('.content-card', $('#attractionList')).length
-    // console.log(limit)
-    for (let i = 0; i < limit; i++) {
-      // console.log(i)
-      let dataurl = $('.content-card', $('#attractionList'))[i]
-      temp = {}
-      temp["place_name"] = $('h3', dataurl).text()
-      temp["image_url"] = $('img', dataurl).data().original
-      temp["desc"] = $('.card-text', dataurl).text()
-      temp["view_more"] = $('a', $(dataurl).html())[0].attribs.href
-
-      data.push(temp)
-
-      //console.log("near:",this.state.dist)
-
-
-    }
-    //console.log(data)
-
-
-    this.setState({
-      places: data
-    })
   }
   constructor() {
     YellowBox.ignoreWarnings(['Require cycle', 'Setting a timer', 'source.uri', '[TypeError:', 'MapViewDirections Error', 'Failed']);
@@ -192,11 +74,11 @@ class Home extends Component {
         })
         this.getData()
       },
-      (error)=>{
-        console.log(error);       
+      (error) => {
+        console.log(error);
       },
-      {enableHighAccuracy:false,distanceFilter:2000}
-      );
+      { enableHighAccuracy: false, distanceFilter: 2000 }
+    );
   }
   setpoint = async () => {
     var no = this.state.userData.point
@@ -229,17 +111,14 @@ class Home extends Component {
 
       })
   }
-  getimage = async () => {
-    try {
-      this.state.image = await AsyncStorage.getItem('image')
-    } catch (error) {
-      console.log(error);
-
-    }
+  componentDidMount=()=>{
+    this.setState({
+      name: firebase.auth().currentUser.displayName,
+      image: firebase.auth().currentUser.photoURL
+    })
   }
   render() {
     this.getUser();
-    this.getimage();
     return (
 
       <SafeAreaView style={styles.container}>

@@ -9,13 +9,12 @@ class SideBar extends Component {
         super()
         this.state = {
             name: firebase.auth().currentUser.displayName,
-            image: '',
+            image: firebase.auth().currentUser.photoURL,
             point: null
         }
     }
     getname = async () => {
         try {
-            this.state.image = await AsyncStorage.getItem('image');
             this.state.point = await AsyncStorage.getItem('point');
             if (this.state.name !== null) {
                 console.log(this.state.point)
@@ -48,6 +47,7 @@ class SideBar extends Component {
         );
     }
 } export default SideBar;
+
 
 const styles = StyleSheet.create({
     container: {

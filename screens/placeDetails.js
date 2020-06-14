@@ -17,10 +17,11 @@ class placeDetails extends Component {
         this.state = {
             name: null,
             result0: [],
-            result1:[],
-            result2:[],
-            title:"",
-            image:''
+            result1: [],
+            result2: [],
+            title: "",
+            image: '',
+            get: null
         }
     }
     UNSAFE_componentWillMount() {
@@ -29,7 +30,7 @@ class placeDetails extends Component {
             () => {
                 this.setState({
                     name: this.props.navigation.getParam('name', []),
-                    image:this.props.navigation.getParam('photo',[])
+                    image: this.props.navigation.getParam('photo', [])
                 }, () => { this.getDetails() }
                 )
             }
@@ -41,36 +42,44 @@ class placeDetails extends Component {
             { method: 'GET', dataType: 'jsonp' })
             .then(response => response.json())
             .then(data => {
-                this.setState({ 
+                console.log(data.query.search)
+                this.setState({
+                    get: data.query.search,
                     result0: data.query.search[0].snippet,
-                    result1:data.query.search[1].snippet,
-                    result2:data.query.search[2].snippet,
-                    title:data.query.search[0].title
-                 })
-                
-            });
+                    result1: data.query.search[1].snippet,
+                    result2: data.query.search[2].snippet,
+                    title: data.query.search[0].title
+                })
+
+            })
+            .catch(error => this.setState({ error, get: null }));
     }
     render() {
-        const text= [this.state.result0,this.state.result1,this.state.result2]
-        var full=text.toString()
-        var details=full.replace(/<span class="searchmatch">/g,' ');
+        const text = [this.state.result0, this.state.result1, this.state.result2]
+        var full = text.toString()
+        var details = full.replace(/<span class="searchmatch">/g, ' ');
         //var final=details.replace(/</span>/g,'')
-        var title=this.state.name
-        var images=this.state.image
-        console.log(details)
+        var title = this.state.name
+        var get = this.state.get
+        var images = this.state.image
+        console.log(get)
         return (
             <View style={styles.container}>
                 <Text style={styles.mainitems}>{title}</Text>
-                <View style={{width:'100%', height: 200}}>
-                <Image
-                style={{ width: null, height: null, resizeMode: "cover", borderRadius: 10, flex: 2 }}
-                source={{ uri: `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&maxheight=400&photoreference=${images}&key=AIzaSyChiwupcs4om20XFLC7iylVTO5Ef6OTH90` }}></Image>
+                <View style={{ width: '100%', height: 200 }}>
+                    {images == null && <View style={{ alignItems: 'center', justifyContent: "center", flex: 1 }}>
+                        <Text style={{ fontSize: 18,marginTop:95 }}>Image Unavailable</Text>
+                    </View>}
+                    <Image
+                        style={{ width: null, height: null, resizeMode: "cover", borderRadius: 10, flex: 2 }}
+                        source={{ uri: `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&maxheight=400&photoreference=${images}&key=AIzaSyChiwupcs4om20XFLC7iylVTO5Ef6OTH90` }}></Image>
                 </View>
-                <HTMLView
-                    value={'<p>'+details+'</p>'}
+                {get != null && <HTMLView
+                    value={'<p>' + details + '</p>'}
                     stylesheet={html}
-                />
-                {text==null &&<Text style={{}}>No Details Available</Text>}
+                />}
+
+                {get == null && <Text style={{ textAlign: 'center', fontSize: 24, }}>No Details Available</Text>}
             </View>
         )
     }
@@ -79,14 +88,14 @@ const styles = StyleSheet.create({
     html: {
 
     },
-    span:{
-        fontSize:15
+    span: {
+        fontSize: 15
     },
     container: {
         flex: 1,
-        fontFamily:'Montserrat-Regular',
-        marginLeft:10,
-        marginRight:10
+        fontFamily: 'Montserrat-Regular',
+        marginLeft: 10,
+        marginRight: 10
     },
     mainitems: {
         color: '#314256',
@@ -94,16 +103,16 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         marginBottom: 5,
         marginLeft: 5,
-        fontSize:25
-    
-      },
+        fontSize: 25
+
+    },
 })
-const html=StyleSheet.create({
+const html = StyleSheet.create({
     p: {
-        color:"#314256",
+        color: "#314256",
         fontFamily: 'Montserrat-Regular',
-        fontSize:15,
-        marginTop:10
+        fontSize: 15,
+        marginTop: 10
 
     }
 })

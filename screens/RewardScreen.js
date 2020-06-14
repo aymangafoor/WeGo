@@ -19,10 +19,9 @@ class RewardScreen extends Component {
   constructor() {
     super()
     this.state = {
-      image: '',
+      image: firebase.auth().currentUser.photoURL,
       name: firebase.auth().currentUser.displayName,
-      img: [],
-      point:null
+      point: null
     }
   }
   goToPickImage = () => {
@@ -37,9 +36,21 @@ class RewardScreen extends Component {
         image: image.path,
       },
         () => {
-          this.setimage()
+          this.uploadImage()
         });
 
+    });
+  }
+  uploadImage = () => {
+    var user = firebase.auth().currentUser;
+
+    user.updateProfile({
+      photoURL: this.state.image
+    }).then(function () {
+      // Update successful.
+      console.log('updated')
+    }).catch(function (error) {
+      // An error happened.
     });
   }
   getpoint = async () => {
@@ -48,7 +59,7 @@ class RewardScreen extends Component {
         point: result,
       });
     })
-}
+  }
   setimage = async () => {
     try {
       await AsyncStorage.setItem('image', this.state.image)
@@ -66,15 +77,22 @@ class RewardScreen extends Component {
             source={require('./images/back.png')}
             style={{ width: 21.96, height: 21 }} />
         </TouchableOpacity>
+        <View style={{ alignItems: 'center', justifyContent: "center", flex: 1 }}>
         <TouchableOpacity
           onPress={() => this.goToPickImage()}
           placeholder={'ADD PHOTO'}
           placeholderTextColor={'black'}
-          style={{ width: 160, height: 160, alignSelf: "center", borderRadius: 160, backgroundColor: 'blue' }}>
+          style={{ width: 160, height: 160, alignSelf: "center", borderRadius: 160, backgroundColor: '#BDC7D4' }}>
+            <Text style={{position:'absolute',alignSelf:'center',justifyContent:"center",marginTop:65,fontFamily: 'Montserrat-Bold'}}>Add Image</Text>
+            {this.state.image == '' && (
+            <Image source={require('./images/user.png')}
+              style={{ width: 160, height: 160, alignSelf: "center", borderRadius: 160, }} />
+          )}
           {this.state.image != '' && (
             <Image source={{ uri: this.state.image }}
               style={{ width: 160, height: 160, alignSelf: "center", borderRadius: 160 }} />
           )}
+          
         </TouchableOpacity>
         <Text style={styles.Text}>{this.state.name}</Text>
         <View style={{ flexDirection: "row" }}>
@@ -82,7 +100,8 @@ class RewardScreen extends Component {
             source={require('./images/coin.png')}
             title="50wc"
             style={{ width: 24, height: 24, alignSelf: "center", marginVertical: 0 }} />
-         <Text style={{ marginLeft:5 }}>{this.state.point}wc</Text>
+          <Text style={{ marginLeft: 5 }}>{this.state.point}wc</Text>
+        </View>
         </View>
         <View style={styles.bottom}>
           <Text style={styles.footerTxt}>WeGo</Text>
