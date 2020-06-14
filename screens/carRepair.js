@@ -86,16 +86,11 @@ const styles = StyleSheet.create({
         marginHorizontal: 0,
         marginTop: 40,
     },
-    flat:{
-        marginHorizontal:15,
-    },
     items:{
         color: '#314256',
         fontFamily: 'Montserrat-Bold',
         marginBottom:5,
         marginLeft:5
-
-
     },
     button:{
         backgroundColor:"#fff",
@@ -103,5 +98,8 @@ const styles = StyleSheet.create({
         borderRadius:10,
         padding:8,
         marginVertical:8,
+        shadowOpacity: 0.8,
+        elevation: 10,
+        marginHorizontal: 15
     }
 });

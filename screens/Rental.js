@@ -26,6 +26,7 @@ class Rental extends Component{
     renderItem = ({ item }) => {
         return (
             <View style={styles.container}>
+                {/* <View></View> */}
                 <Image
                     style={{ width: 100, height: 100, marginRight: 5, marginVertical: 0, borderTopLeftRadius: 10, borderBottomLeftRadius: 10 }}
                     source={{ uri: item.image }} />
@@ -41,14 +42,15 @@ class Rental extends Component{
     render(){
         return(
             <View style={{ backgroundColor: "#f5f5f5", flex: 1 }}>
+                 <TouchableOpacity style={styles.signButton} activeOpacity={0.5} onPress={()=> this.props.navigation.navigate("rental")}>
+            <Text style={styles.btnTxt}>NearbyCarRental</Text>
+          </TouchableOpacity>
                 <Text style={styles.Text}>For Rent</Text>
                 <FlatList style={styles.flat}
                     data={this.state.Rents}
                     renderItem={this.renderItem}
                     numColumns={2}/>
-                <TouchableOpacity style={styles.signButton} activeOpacity={0.5} onPress={()=> this.props.navigation.navigate("rental")}>
-            <Text style={styles.btnTxt}>Rental</Text>
-          </TouchableOpacity>    
+                   
             </View>
 
         );
@@ -91,7 +93,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         marginLeft: 0,
         marginRight: 0,
-        marginBottom: 10,
+        marginTop: 10,
       },
     Text: {
         fontFamily: 'Montserrat-Bold',

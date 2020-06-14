@@ -76,6 +76,7 @@ renderItem={this.renderItem}/>
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        
     },
     Text: {
         fontFamily: 'Montserrat-Bold',
@@ -85,9 +86,6 @@ const styles = StyleSheet.create({
         color: '#314256',
         marginHorizontal: 0,
         marginTop: 40,
-    },
-    flat:{
-        marginHorizontal:15,
     },
     items:{
         color: '#314256',
@@ -103,5 +101,8 @@ const styles = StyleSheet.create({
         borderRadius:10,
         padding:8,
         marginVertical:8,
+        shadowOpacity: 0.8,
+        elevation: 10,
+        marginHorizontal: 15
     }
 });

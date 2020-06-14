@@ -90,8 +90,8 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         padding: 0,
         marginVertical: 8,
-    },
-    flat: {
+        shadowOpacity: 0.8,
+        elevation: 10,
         marginHorizontal: 15
     },
     picker: {
