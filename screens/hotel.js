@@ -40,7 +40,7 @@ class hotel extends Component{
                <TouchableOpacity style={styles.button}  onPress={()=>this.props.navigation.navigate('Assist',{latserv:item.geometry.location.lat, lngserv:item.geometry.location.lng})}>
             
             {images != null && <Image
-              style={{ width: null, height: 100,resizeMode:'cover', marginVertical: 0, borderTopLeftRadius: 10, borderTopRightRadius: 10 }}
+              style={{ width: null, height: 150,resizeMode:'cover', marginVertical: 0, borderTopLeftRadius: 10, borderTopRightRadius: 10 }}
               source={{ uri: `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&maxheight=400&photoreference=${images}&key=AIzaSyChiwupcs4om20XFLC7iylVTO5Ef6OTH90` }} />
             }
             <View>
@@ -87,7 +87,7 @@ class hotel extends Component{
      }
     render(){
         return(
-<View style={{backgroundColor:"#f5f5f5"}}>
+<View style={{backgroundColor:"#f5f5f5",flex:1}}>
     <Text style={styles.Text}>Nearby Lodging {'&'} Inn</Text>
     <FlatList style={styles.flat}
 data={this.state.hotel}
@@ -98,7 +98,8 @@ renderItem={this.renderItem}/>
 }export default hotel;
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        flex: 2,
+
     },
     Text: {
         fontFamily: 'Montserrat-Bold',
@@ -108,9 +109,6 @@ const styles = StyleSheet.create({
         color: '#314256',
         marginHorizontal: 0,
         marginTop: 40,
-    },
-    flat:{
-        marginHorizontal:15,
     },
     items:{
         color: '#314256',
@@ -128,6 +126,9 @@ const styles = StyleSheet.create({
         backgroundColor:"#fff",
         borderRadius:10,
         marginVertical:8,
+        shadowOpacity: 0.8,
+        elevation: 6,
+        marginHorizontal: 15
     },
     btnTxt: {
         backgroundColor: '#BDC7D4',
