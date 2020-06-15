@@ -186,11 +186,6 @@ export default class addFood extends Component {
                     placeholderTextColor={'#86898E'}
                     placeholder={'Hotel'}
                     onChangeText={(hotel) => { this.setState({ hotel }) }} />
-                {/* <TextInput
-                    style={styles.input}
-                    placeholderTextColor={'#86898E'}
-                    placeholder={'uri'}
-                    onChangeText={(uri) => { this.setState({ uri }) }} /> */}
                 <TextInput
                     style={styles.input}
                     value={this.state.vicinity}
