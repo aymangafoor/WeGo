@@ -1,14 +1,8 @@
 import React, { Component, } from "react";
 import {
     View,
-    TouchableOpacity,
     Text,
-    FlatList,
     StyleSheet,
-    Image,
-    Dimensions,
-    TouchableWithoutFeedback,
-    ScrollView
 } from "react-native"
 class coins extends Component {
     render() {
