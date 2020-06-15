@@ -143,38 +143,46 @@ class Home extends Component {
             <TouchableOpacity style={styles.signButton} onPress={() => this.props.navigation.navigate("places", { data: this.state.places })} activeOpacity={0.5}>
               <Image
                 source={require('./images/Home/Places.png')}
-                style={{ width: 60, height: 60, resizeMode: 'cover',alignSelf:"center" ,justifyContent:'center',marginTop:10,position:'relative' }} />
-              <View>
-                <Text style={styles.btnTxt}> Places </Text>
-              </View>
+                style={{ width: 60, height: 60, resizeMode: 'cover', alignSelf: "center", justifyContent: 'center', marginTop: 10, position: 'relative' }} />
+              <Text style={styles.btnTxt}> Places </Text>
             </TouchableOpacity>
           </View>
           <View style={styles.Icon}>
             <TouchableOpacity style={styles.signButton} onPress={() => this.props.navigation.navigate("food")} activeOpacity={0.5}>
               <Image
                 source={require('./images/Home/Food.png')}
-                style={{ width: 60, height: 60, resizeMode: 'cover',alignSelf:"center" ,justifyContent:'center',marginTop:10,position:'relative'}} />
+                style={{ width: 60, height: 60, resizeMode: 'cover', alignSelf: "center", justifyContent: 'center', marginTop: 10, position: 'relative' }} />
               <Text style={styles.btnTxt}>Cuisines</Text>
             </TouchableOpacity>
           </View>
         </View>
-        <View style={styles.Icons}>
+        <View style={{ flexDirection: "row", flex: 1 }}>
+          <View style={styles.Icon}>
+            <TouchableOpacity style={styles.signButton} onPress={() => this.props.navigation.navigate("hotel")} activeOpacity={0.5}>
+              <Image
+                source={require('./images/Home/lodging.png')}
+                style={{ width: 60, height: 60, resizeMode: 'cover', alignSelf: "center", justifyContent: 'center', marginTop: 10, position: 'relative' }} />
+              <Text style={styles.btnTxt}>Hotel</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.Icon}>
             <TouchableOpacity style={styles.signButton} onPress={() => this.props.navigation.navigate("add")} activeOpacity={0.5}>
               <Image
                 source={require('./images/Home/SuggestFood.png')}
-                style={{ width: 60, height: 60, resizeMode: 'cover',alignSelf:"center" ,justifyContent:'center',marginTop:10,position:'relative' }} />
+                style={{ width: 60, height: 60, resizeMode: 'cover', alignSelf: "center", justifyContent: 'center', marginTop: 10, position: 'relative' }} />
               <Text style={styles.btnTxt}>Add Food</Text>
             </TouchableOpacity>
           </View>
+        </View>
         <View>
           <Text style={styles.TextOther}>Other Services</Text>
         </View>
-        <View style={{ flexDirection: "row" }}>
+        <View style={{ flexDirection: "row",flex:1 }}>
           <View style={styles.Icon}>
             <TouchableOpacity style={styles.signButton} onPress={() => this.props.navigation.navigate("Assist", { lat: this.state.lat, lng: this.state.lng })} activeOpacity={0.5}>
               <Image
                 source={require('./images/Home/RoadAssist.png')}
-                style={{ width: 60, height: 60, resizeMode: 'cover',alignSelf:"center" ,justifyContent:'center',marginTop:10,position:'relative' }} />
+                style={{ width: 60, height: 60, resizeMode: 'cover', alignSelf: "center", justifyContent: 'center', marginTop: 10, position: 'relative' }} />
               <Text style={styles.btnTxt} > Road Assist </Text>
             </TouchableOpacity>
           </View>
@@ -183,7 +191,7 @@ class Home extends Component {
               <View style={{ flex: 2 }}>
                 <Image
                   source={require('./images/Home/Rental.png')}
-                  style={{ width: 60, height: 60, resizeMode: 'cover',alignSelf:"center" ,justifyContent:'center',marginTop:10,position:'relative' }} />
+                  style={{ width: 60, height: 60, resizeMode: 'cover', alignSelf: "center", justifyContent: 'center', marginTop: 10, position: 'relative' }} />
                 <Text style={styles.btnTxt}>Rental</Text>
               </View>
             </TouchableOpacity>
@@ -220,15 +228,15 @@ const styles = StyleSheet.create({
   btnTxt: {
     fontFamily: 'Montserrat-Regular',
     fontSize: 16,
-    marginTop:20,
+    marginTop: 20,
     textAlign: 'center',
     color: '#000000',
     backgroundColor: '#BDC7D4',
     width: '100%',
-    height:40,
+    height: 40,
     borderBottomLeftRadius: 15,
     borderBottomRightRadius: 15,
-    paddingTop:7
+    paddingTop: 7
   },
   signButton: {
     marginLeft: 10,
@@ -237,7 +245,7 @@ const styles = StyleSheet.create({
     height: 120,
     shadowOpacity: 0.8,
     backgroundColor: '#FFFFFF',
-    elevation:6
+    elevation: 6
   },
   footerTxt: {
     fontFamily: 'Montserrat-Bold',
@@ -248,9 +256,9 @@ const styles = StyleSheet.create({
     marginLeft: 0,
   },
   bottom: {
-    flex: 1,
     justifyContent: 'flex-end',
-    marginBottom: 10
+    marginTop: 20,
+    marginBottom:10
   },
   Text: {
     fontFamily: 'Montserrat-Bold',
@@ -267,22 +275,13 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     marginRight: 0,
     color: '#314256',
-    marginHorizontal: 0,
-    marginTop: 10,
+    marginTop:-10
   },
-  Icon:{
-    flex:1,
-    height:100,
-    width:110,
-    margin:20,
-    borderRadius:15
+  Icon: {
+    flex: 1,
+    height: 100,
+    width: 110,
+    margin: 20,
+    borderRadius: 15
   },
-  Icons:{
-    flex:1,
-    height:100,
-    width:100,
-    margin:20,
-    borderRadius:15,
-    marginTop:50
-  }
 });

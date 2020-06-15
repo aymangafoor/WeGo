@@ -27,7 +27,7 @@ import places from '../screens/places';
 import rental from '../screens/carRental';
 import details from '../screens/placeDetails';
 import hotel from '../screens/hotel';
-
+import coins from '../screens/coins'
 
 const ScreenContainer = createDrawerNavigator({
    Home: {
@@ -145,6 +145,12 @@ const ScreenContainer = createDrawerNavigator({
    },
    hotel: {
       screen: hotel,
+      navigationOptions: {
+         drawerLabel: () => null,
+      }
+   },
+   coins: {
+      screen: coins,
       navigationOptions: {
          drawerLabel: () => null,
       }

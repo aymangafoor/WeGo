@@ -29,13 +29,13 @@ class Rental extends Component{
                 <View
             style={{ flex: 2 }}>
                 <Image
-                    style={{ width: null, height: 100, resizeMode:'cover', marginVertical: 0, borderTopLeftRadius: 10, borderTopRightRadius: 10,flex:2 }}
+                    style={{ width: null, height: 120, resizeMode:'cover', marginVertical: 0, borderTopLeftRadius: 10, borderTopRightRadius: 10,flex:2 }}
                     source={{ uri: item.image }} />
                     </View>
                 <View style={{ flexDirection: 'column', height: "100%", flex: 1 }}>
                     <Text numberOfLines={2} ellipsizeMode="tail" style={styles.title}>{item.name}</Text>
-                    <Text style={styles.items}>{item.prize}</Text>
                     <Text numberOfLines={3} ellipsizeMode="tail" style={styles.items}>{item.details}</Text>
+                    <Text numberOfLines={2} ellipsizeMode="tail" style={styles.items}>{item.price}</Text>
                 </View>
             </View>
         )
@@ -58,7 +58,7 @@ class Rental extends Component{
                     data={this.state.Rents}
                     renderItem={this.renderItem}
                     numColumns={2}/>
-                   
+              <Text style={styles.Textavailable}>Rent Store Services available soon with more travelling gears</Text>     
             </View>
 
         );
@@ -115,10 +115,8 @@ const styles = StyleSheet.create({
     items: {
         color: '#314256',
         fontFamily: 'Montserrat-Regular',
-        marginBottom: 5,
         marginLeft: 5,
         textAlign: 'left',
-        flex: 1
     },
     title: {
         color: '#314256',
@@ -153,4 +151,14 @@ const styles = StyleSheet.create({
         marginHorizontal: 0,
         marginTop: 40,
     },
+    Textavailable:{
+        fontFamily: 'Montserrat-Bold',
+        fontSize: 20,
+        color: '#314256',
+        marginHorizontal: 0,
+        marginTop: 40,
+        flex:1,
+        alignItems:'center',
+        paddingLeft:10
+    }
 })

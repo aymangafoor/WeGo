@@ -100,7 +100,7 @@ class RewardScreen extends Component {
             source={require('./images/coin.png')}
             title="50wc"
             style={{ width: 24, height: 24, alignSelf: "center", marginVertical: 0 }} />
-          <Text style={{ marginLeft: 5 }}>{this.state.point}wc</Text>
+          <Text style={{ marginLeft: 5 }} onPress={()=>this.props.navigation.navigate('coins')}>{this.state.point}wc</Text>
         </View>
         </View>
         <View style={styles.bottom}>
