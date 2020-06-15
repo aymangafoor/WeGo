@@ -49,9 +49,6 @@ class Rental extends Component{
                 <TouchableOpacity style={styles.signButton} activeOpacity={0.5} onPress={()=> this.props.navigation.navigate("rental")}>
             <Text style={styles.btnTxt}>Car Rentals</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.signButton} activeOpacity={0.5} onPress={()=> this.props.navigation.navigate("hotel")}>
-        <Text style={styles.btnTxt}>Lodges {'&'} Inn</Text>
-          </TouchableOpacity>
           </View>  
                 <Text style={styles.Text}>For Rent</Text>
                 <FlatList style={styles.flat}
