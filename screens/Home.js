@@ -131,7 +131,9 @@ class Home extends Component {
           </TouchableOpacity >
           {this.state.image != '' && (<Image
             source={{ uri: this.state.image }}
-            //source={require('./images/user.png')}
+            style={{ width: 42, height: 42, borderRadius: 42, alignSelf: "flex-end", marginTop: -20 }} />)}
+            {this.state.image == null && (<Image
+            source={require('./images/user.png')}
             style={{ width: 42, height: 42, borderRadius: 42, alignSelf: "flex-end", marginTop: -20 }} />)}
           <View>
             <Text style={{ color: 'white' }}>{this.state.place}</Text>

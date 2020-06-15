@@ -30,9 +30,12 @@ class SideBar extends Component {
         return (
             <ScrollView style={styles.container}>
                 <View>
-                    <Image
-                        source={{ uri: this.state.image }}
-                        style={{ width: 62, height: 62, borderRadius: 62, alignSelf: "center", marginTop: 10 }} />
+                {this.state.image != '' && (<Image
+            source={{ uri: this.state.image }}
+            style={{ width: 62, height: 62, borderRadius: 62, alignSelf: "center", marginTop: 10 }} />)}
+            {this.state.image == null && (<Image
+            source={require('./images/user.png')}
+            style={{ width: 62, height: 62, borderRadius: 62, alignSelf: "center", marginTop: 10 }} />)}
                     <Text style={styles.Text}>{this.state.name}</Text>
                     <View style={{ flexDirection: "row", alignSelf: 'center' }}>
                         <Image

@@ -6,9 +6,11 @@ import {
     FlatList,
     StyleSheet,
     Image,
+    TouchableWithoutFeedback
 } from "react-native"
 import firebase, { auth } from "firebase";
 import config from '../config/firebase';
+import StarRating from 'react-native-star-rating';
 import Geolocation from '@react-native-community/geolocation';
 class hotel extends Component{
     state={
@@ -38,14 +40,28 @@ class hotel extends Component{
                <TouchableOpacity style={styles.button}  onPress={()=>this.props.navigation.navigate('Assist',{latserv:item.geometry.location.lat, lngserv:item.geometry.location.lng})}>
             
             {images != null && <Image
-              style={{ width: 100, height: null, marginRight: 5, marginVertical: 0, borderTopLeftRadius: 10, borderBottomLeftRadius: 10 }}
+              style={{ width: null, height: 100,resizeMode:'cover', marginVertical: 0, borderTopLeftRadius: 10, borderTopRightRadius: 10 }}
               source={{ uri: `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&maxheight=400&photoreference=${images}&key=AIzaSyChiwupcs4om20XFLC7iylVTO5Ef6OTH90` }} />
             }
             <View>
             <Text style={styles.mainitems}>{item.name}</Text>
         <Text style={styles.items}>{item.vicinity}</Text>
        {item.opening_hours? <Text style={styles.items}>open</Text>:<Text style={styles.items}>closed</Text>}
-        <Text style={styles.items}>Rating:{item.rating}</Text>
+       <View style={{ width: '98%', flexDirection: 'row' }}>
+              <Text style={styles.items}>Rating </Text>
+              <StarRating
+                starStyle={{ marginTop: 4 }}
+                halfStarColor={'#ffd700'}
+                fullStarColor={'#ffd700'}
+                disabled={false}
+                maxStars={5}
+                starSize={15}
+                rating={item.rating}
+              />
+              <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('Assist', { latserv: item.geometry.location.lat, lngserv: item.geometry.location.lng })}>
+                <Text style={styles.btnTxt}>Navigate</Text>
+              </TouchableWithoutFeedback>
+            </View>
             </View>
             </TouchableOpacity>
         </View>   
@@ -110,8 +126,22 @@ const styles = StyleSheet.create({
     },
     button:{
         backgroundColor:"#fff",
-        flexDirection:'row',
         borderRadius:10,
         marginVertical:8,
-    }
+    },
+    btnTxt: {
+        backgroundColor: '#BDC7D4',
+        fontFamily: 'Montserrat-Bold',
+        color: '#314256',
+        fontSize: 14,
+        borderRadius: 30,
+        width: 80,
+        height: 30,
+        marginTop: 0,
+        marginBottom: 4,
+        marginRight: 2,
+        textAlign: 'center',
+        alignSelf: 'flex-end',
+        marginLeft: 100
+      },
 });
