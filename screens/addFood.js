@@ -176,11 +176,13 @@ export default class addFood extends Component {
                 </Picker>
                 <TextInput
                     style={styles.input}
+                    value={this.state.name}
                     placeholderTextColor={'#86898E'}
                     placeholder={'Name'}
                     onChangeText={(name) => { this.setState({ name }) }} />
                 <TextInput
                     style={styles.input}
+                    value={this.state.hotel}
                     placeholderTextColor={'#86898E'}
                     placeholder={'Hotel'}
                     onChangeText={(hotel) => { this.setState({ hotel }) }} />
@@ -191,6 +193,7 @@ export default class addFood extends Component {
                     onChangeText={(uri) => { this.setState({ uri }) }} /> */}
                 <TextInput
                     style={styles.input}
+                    value={this.state.vicinity}
                     placeholderTextColor={'#86898E'}
                     placeholder={'Location'}
                     onChangeText={(vicinity) => { this.setState({ vicinity }) }} />
