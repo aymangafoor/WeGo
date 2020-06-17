@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
         marginRight: 0,
         color: '#314256',
         marginHorizontal: 0,
-        marginTop: 40,
+        marginTop: 20,
     },
     items:{
         color: '#314256',

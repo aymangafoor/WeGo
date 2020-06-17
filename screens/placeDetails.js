@@ -65,6 +65,11 @@ class placeDetails extends Component {
         console.log(get)
         return (
             <View style={styles.container}>
+                <TouchableOpacity style={{ alignSelf: "flex-start" }} onPress={() => this.props.navigation.navigate('places')}>
+          <Image
+            source={require('./images/back.png')}
+            style={{ width: 21.96, height: 21 ,marginLeft:0}} />
+        </TouchableOpacity>
                 <Text style={styles.mainitems}>{title}</Text>
                 <View style={{ width: '100%', height: 200 }}>
                     {images == null && <View style={{ alignItems: 'center', justifyContent: "center", flex: 1 }}>

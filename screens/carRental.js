@@ -68,6 +68,11 @@ class carRental extends Component{
     render(){
         return(
 <View style={{backgroundColor:"#f5f5f5"}}>
+<TouchableOpacity style={{ alignSelf: "flex-start", marginleft: 15, }} onPress={() => this.props.navigation.navigate('rent')}>
+          <Image
+            source={require('./images/back.png')}
+            style={{ width: 21.96, height: 21 ,marginLeft:5}} />
+        </TouchableOpacity>
     <Text style={styles.Text}>Nearby Vehicle Rentals</Text>
     <FlatList style={styles.flat}
 data={this.state.carRental}
@@ -87,7 +92,7 @@ const styles = StyleSheet.create({
         marginRight: 0,
         color: '#314256',
         marginHorizontal: 0,
-        marginTop: 40,
+        marginTop: 10,
     },
     flat:{
         marginHorizontal:15,
