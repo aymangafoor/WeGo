@@ -17,6 +17,7 @@ import RNFetchBlob from 'rn-fetch-blob';
 import ImagePicker from 'react-native-image-crop-picker';
 import * as Progress from 'react-native-progress';
 import ProgressBarAnimated from 'react-native-progress-bar-animated';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview'
 const Blob = RNFetchBlob.polyfill.Blob;
 const fs = RNFetchBlob.fs;
 window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest;
@@ -70,7 +71,7 @@ export default class addFood extends Component {
             vicinity: null,
             uri: null,
             url: '',
-            select: ["Alappuzha", "Ernakulam", "Idukki", "Kannur", "Kasargod", "Kollam", "Kottayam", "Kozhikode", "Malappuram", "Palakkad", "Pathanamthitta", "Thiruvananthapuram", "Thrissur", "Wayanad"],
+            select: ["Alappuzha", "Ernakulam", "Idukki", "Kannur", "Kasargod", "Kollam", "Kottayam", "Kozhikode", "Malappuram", "Palakkad", "Pathanamthitta", "Thiruvananthapuram", "Thrissur", "Wayanad","Others"],
             image: '',
             blob: [],
             progress: null
@@ -84,7 +85,7 @@ export default class addFood extends Component {
     }
     getUrl = () => {
         const district = this.state.district;
-        this.state.url = `Foods/${district}/`;
+        this.state.url = `Foods/Suggest/${district}/`;
     }
     goToPickImage = () => {
         ImagePicker.openPicker({
@@ -123,7 +124,7 @@ export default class addFood extends Component {
             Alert.alert("Error", "Enter Name")
             return;
         }
-        var location = firebase.storage().ref(`Foods/${district}/${name}`).put(blob);
+        var location = firebase.storage().ref(`Foods/Suggest/${district}/${name}`).put(blob);
         location.on(
             "state_changed",
             snapshot => {
@@ -148,7 +149,7 @@ export default class addFood extends Component {
             error => { console.log(error) },
             () => {
                 firebase.storage().ref("Foods")
-                    .child(`${district}/${name}`)
+                    .child(`Suggest/${district}/${name}`)
                     .getDownloadURL()
                     .then(url => {
                         console.log(url)
@@ -163,6 +164,7 @@ export default class addFood extends Component {
         var progress = this.state.progress;
 
         return (
+            <KeyboardAwareScrollView style={{ flex:1 }}>
             <View style={styles.container}>
                 <Picker
                     selectedValue={this.state.district}
@@ -214,6 +216,7 @@ export default class addFood extends Component {
                     <Text style={styles.footerTxt}>WeGo</Text>
                 </View>
             </View>
+            </KeyboardAwareScrollView>
         )
     }
 }
@@ -223,6 +226,7 @@ const styles = StyleSheet.create({
         marginTop: 50,
         marginHorizontal: 15,
         alignItems: "center",
+        justifyContent:"center"
     },
     input: {
         fontFamily: 'Montserrat-Light',
@@ -277,6 +281,7 @@ const styles = StyleSheet.create({
     bottom: {
         flex: 1,
         justifyContent: 'flex-end',
-        marginBottom: 36
+        marginBottom: 10,
+        marginTop:20
     },
 });

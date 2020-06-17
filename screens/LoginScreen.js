@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import firebase, { auth } from "firebase";
 import config from '../config/firebase';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview'
 export default class LoginScreen extends Component {
   state = {
     email :null,
@@ -41,6 +42,7 @@ export default class LoginScreen extends Component {
 
   render() {
     return (
+      <KeyboardAwareScrollView style={{ flex:1 }}>
       <View style={styles.container}>
         <StatusBar translucent backgroundColor="transparent" />
         <Text style={styles.textProp}>Login</Text>
@@ -78,6 +80,7 @@ export default class LoginScreen extends Component {
           </View>
         </View>
       </View>
+      </KeyboardAwareScrollView>
     );
   }
 }

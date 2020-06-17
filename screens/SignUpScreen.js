@@ -7,9 +7,8 @@ import {
   TextInput,
   TouchableOpacity,
   Alert,
-  KeyboardAvoidingView
 } from 'react-native';
-
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview'
 import firebase, { auth } from "firebase";
 import firestore from "firebase/firestore"
 import config from '../config/firebase';
@@ -54,7 +53,8 @@ export default class SignUpScreen extends React.Component {
   }
   render() {
     return (
-      <KeyboardAvoidingView behavior='height' contentContainerStyle={{flex:1}} style={styles.container}>
+      <KeyboardAwareScrollView style={{ flex:1 }}>
+      <View style={styles.container}>
         <StatusBar translucent backgroundColor="transparent" />
         <Text style={styles.textProp}>Sign up</Text>
         <View style={{ marginVertical: 20 }}>
@@ -92,7 +92,8 @@ export default class SignUpScreen extends React.Component {
         <View>
           <Text style={styles.footerTxt}>WeGo</Text>
         </View>
-      </KeyboardAvoidingView>
+      </View>
+      </KeyboardAwareScrollView>
     );
   }
 }
