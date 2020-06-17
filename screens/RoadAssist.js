@@ -73,10 +73,10 @@ export default class RoadAssist extends Component {
       contentContainerStyle={{flex:1}}>
       <View style={styles.container}>
 
-        <TouchableOpacity style={{ alignSelf: "flex-start", marginleft: 15, }} onPress={() => this.props.navigation.navigate('Home')}>
+        <TouchableOpacity style={{ alignSelf: "flex-start", paddingleft: 15, }} onPress={() => this.props.navigation.navigate('Home')}>
           <Image
             source={require('./images/back.png')}
-            style={{ width: 21.96, height: 21 }} />
+            style={{ width: 21.96, height: 21 ,marginLeft:5}} />
         </TouchableOpacity>
         <GooglePlacesAutocomplete
           placeholder='Enter Destination'

@@ -67,6 +67,11 @@ this.setState({
     render(){
         return(
 <View style={{backgroundColor:"#f5f5f5"}}>
+<TouchableOpacity style={{ alignSelf: "flex-start", marginleft: 15, }} onPress={() => this.props.navigation.navigate('Assist')}>
+          <Image
+            source={require('./images/back.png')}
+            style={{ width: 21.96, height: 21 ,marginLeft:5}} />
+        </TouchableOpacity>
     <Text style={styles.Text}>Nearby Gase Stations</Text>
     <FlatList style={styles.flat}
 data={this.state.gasedata}
@@ -87,7 +92,7 @@ const styles = StyleSheet.create({
         marginRight: 0,
         color: '#314256',
         marginHorizontal: 0,
-        marginTop: 40,
+        marginTop: 5,
     },
     items:{
         color: '#314256',
