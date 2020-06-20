@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { 
+import {
     View,
     Text,
     StyleSheet,
@@ -10,73 +10,74 @@ import {
     Image,
     FlatList,
 } from "react-native";
-class restaurant extends Component{
-    constructor(){
+class restaurant extends Component {
+    constructor() {
         super()
         this.state = {
-            lat:null,
-            lng:null,
+            lat: null,
+            lng: null,
             atm: []
-            
+
         }
     }
-    UNSAFE_componentWillMount(){
-        let lat =this.props.navigation.getParam('lat',[])
-        let lng =this.props.navigation.getParam('lng',[])
-this.setState({
-        lat,
-        lng,
-    })
+    UNSAFE_componentWillMount() {
+        let lat = this.props.navigation.getParam('lat', [])
+        let lng = this.props.navigation.getParam('lng', [])
+        this.setState({
+            lat,
+            lng,
+        })
     }
-    renderItem = ({item})=> {
-        return(
+    renderItem = ({ item }) => {
+        return (
             <View style={styles.container}>
-               <TouchableOpacity style={styles.button}  onPress={()=>this.props.navigation.navigate('Assist',{latserv:item.geometry.location.lat, lngserv:item.geometry.location.lng})}>
-            <Image
-            style={{width:15,height:15,marginTop:10,marginLeft:5}}
-            source={{uri:item.icon}}/>
-            <View>
-            <Text style={styles.mainitems}>{item.name}</Text>
-        <Text style={styles.items}>{item.vicinity}</Text>
-       {item.opening_hours? <Text style={styles.items}>open</Text>:<Text style={styles.items}>closed</Text>}
-        <Text style={styles.items}>Rating:{item.rating}</Text>
+                <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate('Assist', { latserv: item.geometry.location.lat, lngserv: item.geometry.location.lng })}>
+                    <Image
+                        style={{ width: 15, height: 15, marginTop: 10, marginLeft: 5 }}
+                        source={{ uri: item.icon }} />
+                    <View>
+                        <Text style={styles.mainitems}>{item.name}</Text>
+                        <Text style={styles.items}>{item.vicinity}</Text>
+                        {item.opening_hours ? <Text style={styles.items}>open</Text> : <Text style={styles.items}>closed</Text>}
+                        <Text style={styles.items}>Rating:{item.rating}</Text>
+                    </View>
+                </TouchableOpacity>
             </View>
-            </TouchableOpacity>
-        </View>   
         )
-        
+
     }
     componentDidMount = () => {
-        fetch('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location='+this.state.lat+','+this.state.lng+'&radius=5000&type=atm&key=AIzaSyChiwupcs4om20XFLC7iylVTO5Ef6OTH90', {
-           method: 'GET'
+        fetch('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + this.state.lat + ',' + this.state.lng + '&radius=5000&type=atm&key=AIzaSyChiwupcs4om20XFLC7iylVTO5Ef6OTH90', {
+            method: 'GET'
         })
-        .then((response) => response.json())
-        .then((responseJson) => {
-           console.log(responseJson.results[1]);
-           this.setState({
-              atm: responseJson.results
-           })
-        })
-        .catch((error) => {
-           console.error(error);
-        });
-     }
-    render(){
-        return(
-<View style={{backgroundColor:"#f5f5f5"}}>
-<TouchableOpacity style={{ alignSelf: "flex-start", marginleft: 15, }} onPress={() => this.props.navigation.navigate('Assist')}>
-          <Image
-            source={require('./images/back.png')}
-            style={{ width: 21.96, height: 21 ,marginLeft:5}} />
-        </TouchableOpacity>
-    <Text style={styles.Text}>Nearby ATM</Text>
-    <FlatList style={styles.flat}
-data={this.state.atm}
-renderItem={this.renderItem}/>
-</View>
+            .then((response) => response.json())
+            .then((responseJson) => {
+                console.log(responseJson.results[1]);
+                this.setState({
+                    atm: responseJson.results
+                })
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }
+    render() {
+        return (
+            <View style={{ backgroundColor: "#f5f5f5" }}>
+                <TouchableOpacity style={{ alignSelf: "flex-start", marginleft: 15, }} onPress={() => this.props.navigation.navigate('Assist')}>
+                    <Image
+                        source={require('./images/back.png')}
+                        style={{ width: 21.96, height: 21, marginLeft: 5 }} />
+                </TouchableOpacity>
+                <Text style={styles.Text}>Nearby ATM</Text>
+                <FlatList style={styles.flat}
+                    showsVerticalScrollIndicator={false}
+                    data={this.state.atm}
+                    renderItem={this.renderItem} />
+            </View>
         );
     }
-}export default restaurant;
+} export default restaurant;
 
 const styles = StyleSheet.create({
     container: {
@@ -91,24 +92,24 @@ const styles = StyleSheet.create({
         marginHorizontal: 0,
         marginTop: 5,
     },
-    items:{
+    items: {
         color: '#314256',
         fontFamily: 'Montserrat-Regular',
-        marginBottom:5,
-        marginLeft:5
+        marginBottom: 5,
+        marginLeft: 5
     },
-    mainitems:{
+    mainitems: {
         color: '#314256',
         fontFamily: 'Montserrat-Bold',
-        marginBottom:5,
-        marginLeft:5
+        marginBottom: 5,
+        marginLeft: 5
     },
-    button:{
-        backgroundColor:"#fff",
-        flexDirection:'row',
-        borderRadius:10,
-        padding:8,
-        marginVertical:8,
+    button: {
+        backgroundColor: "#fff",
+        flexDirection: 'row',
+        borderRadius: 10,
+        padding: 8,
+        marginVertical: 8,
         shadowOpacity: 0.8,
         elevation: 10,
         marginHorizontal: 15

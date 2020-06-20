@@ -42,7 +42,7 @@ export default class LoginScreen extends Component {
 
   render() {
     return (
-      <KeyboardAwareScrollView style={{ flex:1 }}>
+      <KeyboardAwareScrollView style={{ flex:1,backgroundColor: '#ffffff' }}>
       <View style={styles.container}>
         <StatusBar translucent backgroundColor="transparent" />
         <Text style={styles.textProp}>Login</Text>

@@ -177,6 +177,7 @@ class places extends Component {
         <Text style={styles.Text}>Nearby Musea {'&'} Art Galleries</Text>
         <FlatList style={styles.flat}
           horizontal={true}
+          showsHorizontalScrollIndicator={false}
           data={museum}
           renderItem={this.renderItem}
           keyExtractor={item => item.id} />

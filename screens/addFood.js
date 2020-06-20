@@ -17,7 +17,7 @@ import RNFetchBlob from 'rn-fetch-blob';
 import ImagePicker from 'react-native-image-crop-picker';
 import * as Progress from 'react-native-progress';
 import ProgressBarAnimated from 'react-native-progress-bar-animated';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview'
 const Blob = RNFetchBlob.polyfill.Blob;
 const fs = RNFetchBlob.fs;
 window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest;
@@ -71,7 +71,7 @@ export default class addFood extends Component {
             vicinity: null,
             uri: null,
             url: '',
-            select: ["Alappuzha", "Ernakulam", "Idukki", "Kannur", "Kasargod", "Kollam", "Kottayam", "Kozhikode", "Malappuram", "Palakkad", "Pathanamthitta", "Thiruvananthapuram", "Thrissur", "Wayanad","Others"],
+            select: ["Alappuzha", "Ernakulam", "Idukki", "Kannur", "Kasargod", "Kollam", "Kottayam", "Kozhikode", "Malappuram", "Palakkad", "Pathanamthitta", "Thiruvananthapuram", "Thrissur", "Wayanad", "Others"],
             image: '',
             blob: [],
             progress: null
@@ -85,7 +85,7 @@ export default class addFood extends Component {
     }
     getUrl = () => {
         const district = this.state.district;
-        this.state.url = `Foods/Suggest/${district}/`;
+        this.state.url = `Suggest/Foods/${district}/`;
     }
     goToPickImage = () => {
         ImagePicker.openPicker({
@@ -128,7 +128,7 @@ export default class addFood extends Component {
         location.on(
             "state_changed",
             snapshot => {
-                var progress = ((snapshot.bytesTransferred / snapshot.totalBytes)*100)
+                var progress = ((snapshot.bytesTransferred / snapshot.totalBytes) * 100)
                 this.setState({ progress: progress })
                 console.log('Upload is ' + progress + '% done');
                 switch (snapshot.state) {
@@ -164,58 +164,62 @@ export default class addFood extends Component {
         var progress = this.state.progress;
 
         return (
-            <KeyboardAwareScrollView style={{ flex:1 }}>
-            <View style={styles.container}>
-                <Picker
-                    selectedValue={this.state.district}
-                    onValueChange={this.getlink}
-                    mode="dropdown"
-                    textStyle={styles.itemStyle}
-                >
-                    {this.state.select.map((item, index) => {
-                        return (<Picker.Item label={item} value={item} key={index} />)
-                    })}
-                </Picker>
-                <TextInput
-                    style={styles.input}
-                    value={this.state.name}
-                    placeholderTextColor={'#86898E'}
-                    placeholder={'Name'}
-                    onChangeText={(name) => { this.setState({ name }) }} />
-                <TextInput
-                    style={styles.input}
-                    value={this.state.hotel}
-                    placeholderTextColor={'#86898E'}
-                    placeholder={'Hotel'}
-                    onChangeText={(hotel) => { this.setState({ hotel }) }} />
-                <TextInput
-                    style={styles.input}
-                    value={this.state.vicinity}
-                    placeholderTextColor={'#86898E'}
-                    placeholder={'Location'}
-                    onChangeText={(vicinity) => { this.setState({ vicinity }) }} />
-                <TouchableOpacity
-                    style={styles.signButton}
-                    onPress={this.goToPickImage}>
-                    <Text style={styles.btnTxt}>add image</Text>
-                </TouchableOpacity>
-                <View style={{ flexDirection: 'row' }}>
-                    {progress > 0 &&  <ProgressBarAnimated
-                    backgroundColorOnComplete={'#0176FB'}
-                        width={138}
-                        maxValue={100}
-                        value={progress}
-                    />}
+            <KeyboardAwareScrollView style={{ flex: 1 }}>
+                <View style={styles.container}>
+                    <View style={{ flexDirection: 'row' }}>
+                        <Text style={styles.select}>District:</Text>
+                        <Picker
+                            selectedValue={this.state.district}
+                            onValueChange={this.getlink}
+
+                            style={styles.picker}
+                            textStyle={styles.itemStyle}
+                        >
+                            {this.state.select.map((item, index) => {
+                                return (<Picker.Item label={item} value={item} key={index} />)
+                            })}
+                        </Picker>
+                    </View>
+                    <TextInput
+                        style={styles.input}
+                        value={this.state.name}
+                        placeholderTextColor={'#86898E'}
+                        placeholder={'Name'}
+                        onChangeText={(name) => { this.setState({ name }) }} />
+                    <TextInput
+                        style={styles.input}
+                        value={this.state.hotel}
+                        placeholderTextColor={'#86898E'}
+                        placeholder={'Hotel'}
+                        onChangeText={(hotel) => { this.setState({ hotel }) }} />
+                    <TextInput
+                        style={styles.input}
+                        value={this.state.vicinity}
+                        placeholderTextColor={'#86898E'}
+                        placeholder={'Location'}
+                        onChangeText={(vicinity) => { this.setState({ vicinity }) }} />
+                    <TouchableOpacity
+                        style={styles.signButton}
+                        onPress={this.goToPickImage}>
+                        <Text style={styles.btnTxt}>add image</Text>
+                    </TouchableOpacity>
+                    <View style={{ flexDirection: 'row' }}>
+                        {progress > 0 && <ProgressBarAnimated
+                            backgroundColorOnComplete={'#0176FB'}
+                            width={138}
+                            maxValue={100}
+                            value={progress}
+                        />}
+                    </View>
+                    {progress == 100 && <Text>uploded</Text>}
+                    <TouchableOpacity
+                        onPress={this.addFoodItem}>
+                        <Text style={styles.btnTxt}>add Food</Text>
+                    </TouchableOpacity>
                 </View>
-                {progress==100&&<Text>uploded</Text>}
-                <TouchableOpacity
-                    onPress={this.addFoodItem}>
-                    <Text style={styles.btnTxt}>add Food</Text>
-                </TouchableOpacity>
                 <View style={styles.bottom}>
                     <Text style={styles.footerTxt}>WeGo</Text>
                 </View>
-            </View>
             </KeyboardAwareScrollView>
         )
     }
@@ -226,7 +230,7 @@ const styles = StyleSheet.create({
         marginTop: 50,
         marginHorizontal: 15,
         alignItems: "center",
-        justifyContent:"center"
+        justifyContent: "center"
     },
     input: {
         fontFamily: 'Montserrat-Light',
@@ -282,6 +286,24 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'flex-end',
         marginBottom: 10,
-        marginTop:20
+        marginTop: 20
     },
+    picker: {
+        flex: 0.5,
+        width: 200,
+        textAlign: 'center',
+        marginTop: -12,
+        marginLeft: -65
+    },
+    select: {
+        color: '#314256',
+        fontFamily: 'serif',
+        marginBottom: 5,
+        marginLeft: 0,
+        textAlign: 'left',
+        fontSize: 20,
+        flex: .5,
+        paddingLeft: 10,
+        marginTop: 10,
+    }
 });

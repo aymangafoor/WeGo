@@ -15,7 +15,7 @@ class Food extends Component {
         super()
         this.state = {
             district: '',
-            select: ["Alappuzha", "Ernakulam", "Idukki", "Kannur", "Kasargod", "Kollam", "Kottayam", "Kozhikode", "Malappuram", "Palakkad", "Pathanamthitta", "Thiruvananthapuram", "Thrissur", "Wayanad"],
+            select: ["Alappuzha", "Ernakulam", "Idukki", "Kannur", "Kasargod", "Kollam", "Kottayam", "Kozhikode", "Malappuram", "Palakkad", "Pathanamthitta", "Thiruvananthapuram", "Thrissur", "Wayanad","Others"],
             url: "",
             Foods: []
         }
@@ -74,6 +74,7 @@ class Food extends Component {
 
                 <FlatList style={styles.flat}
                     data={this.state.Foods}
+                    showsVerticalScrollIndicator={false}
                     renderItem={this.renderItem} />
 
             </View>
