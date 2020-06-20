@@ -15,13 +15,8 @@ import {
   Alert,
   YellowBox
 } from "react-native";
-
-// import cio from 'cheerio-without-node-native';
 import firebase, { auth } from "firebase";
 import config from '../config/firebase';
-import { Drawer } from "react-native-router-flux";
-import Login from "./LoginScreen";
-import Assist from "./RoadAssist";
 import Geolocation from '@react-native-community/geolocation';
 import Geocoder from 'react-native-geocoding';
 console.disableYellowBox = true;

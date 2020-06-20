@@ -9,11 +9,9 @@ import { createDrawerNavigator, navigationOptions } from 'react-navigation-drawe
 import Home from '../screens/Home';
 import Profile from '../screens/RewardScreen';
 import About from '../screens/About';
-import Near_Place from '../screens/NearPlaces';
 import Assist from '../screens/RoadAssist';
-import SignlePlace from '../screens/SignlePlace';
 import Signout from '../screens/Signout';
-import { Text, Dimensions } from "react-native";
+import { Dimensions } from "react-native";
 import SideBar from '../screens/SideBar';
 import gas from '../screens/gasStation';
 import restaurant from '../screens/restaurant';
@@ -57,18 +55,6 @@ const ScreenContainer = createDrawerNavigator({
       navigationOptions: {
          title: "Log Out",
          drawerIcon:({activeTintColor})=><Icon name='sign-out' size={24} color={'white'}/>
-      }
-   },
-   Near_Place: {
-      screen: Near_Place,
-      navigationOptions: {
-         drawerLabel: () => null,
-      }
-   },
-   SignlePlace: {
-      screen: SignlePlace,
-      navigationOptions: {
-         drawerLabel: () => null,
       }
    },
    Assist: {

@@ -9,7 +9,6 @@ import Navigator from './Navigator/AppNavigator';
 import Core from './Navigator/Screens';
 import firebase, { auth } from "firebase";
 import config from './config/firebase';
-import {createDrawerNavigator} from "react-navigation-drawer";
 import { 
     View,
     Text,

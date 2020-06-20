@@ -37,15 +37,17 @@
     "react-native-progress": "^4.1.2",
     "react-native-progress-bar-animated": "^1.0.6",
     "react-native-reanimated": "^1.7.0",
-    "react-native-router-flux": "^4.2.0",
     "react-native-safe-area-context": "^0.7.3",
     "react-native-screens": "^2.3.0",
     "react-native-star-rating": "^1.1.0",
     "react-native-vector-icons": "^6.6.0",
     "react-navigation": "^4.3.3",
+    "react-navigation-drawer": "^2.4.13",
     "react-navigation-slide-from-right-transition": "^1.0.4",
+    "react-navigation-stack": "^2.7.0",
     "rn-fetch-blob": "^0.12.0",
-    "typescript": "^3.8.3"
+    "typescript": "^3.8.3",
+    "watchman": "^1.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.6.2",
