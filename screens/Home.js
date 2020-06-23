@@ -72,7 +72,7 @@ class Home extends Component {
       (error) => {
         console.log(error);
       },
-      { enableHighAccuracy: false, distanceFilter: 2000 }
+      { enableHighAccuracy: false, distanceFilter: 2000,timeout:1000 }
     );
   }
   setpoint = async () => {
