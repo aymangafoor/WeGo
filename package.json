@@ -36,7 +36,7 @@
     "react-native-picker-dropdown": "^0.1.2",
     "react-native-progress": "^4.1.2",
     "react-native-progress-bar-animated": "^1.0.6",
-    "react-native-reanimated": "^1.7.0",
+    "react-native-reanimated": "^2.10.0",
     "react-native-safe-area-context": "^0.7.3",
     "react-native-screens": "^2.3.0",
     "react-native-star-rating": "^1.1.0",
